@@ -5,8 +5,8 @@
 > A smart solution for PC heating .
 
 ## Features
-> Automated / manual activate.
-> Temptrature display.
-> ON/OFF on single touch.
-> Automated + manually fan speed control.
-> external power + PC battry powered.
+> ->Automated / manual activate.<br>
+> -->Temptrature display.<br>
+> --->ON/OFF on single touch.<br>
+> ---->Automated + manually fan speed control.<br>
+> ----->external power + PC battry powered.<br>
