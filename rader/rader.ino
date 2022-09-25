@@ -20,15 +20,15 @@ void setup() {
 }
 void loop() {
   for (int i = 0; i <= 180; i++) {
-    calculate_distance();
+    calculate_distance(i);
   }
 
   for (int i = 180; i >= 0; i--) {
-    calculate_distance();
+    calculate_distance(i);
   }
 }
 
-void calculate_distance() {
+void calculate_distance(int i) {
   radarServo.write(i);
   delay(50);
   digitalWrite(trigPin, LOW);

@@ -1,5 +1,5 @@
-int triggerpin = 11;
-int echopin = 12;
+int triggerpin = 10;
+int echopin = 11;
 int ledpin = 13;
 int time;
 int distance;
@@ -23,12 +23,12 @@ void loop() {
     Serial.print("distance=");
     Serial.println(distance);
     digitalWrite(13, HIGH);
-    delay(100);
+    delay(500);
   } else {
     Serial.println("Door Close");
     Serial.print("distance=");
     Serial.println(distance);
     digitalWrite(13, LOW);
-    delay(100);
+    delay(500);
   }
 }
