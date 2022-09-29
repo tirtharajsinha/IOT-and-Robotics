@@ -3,7 +3,7 @@
 // Written for : arduino AVR Boards
 // Date : 27-09-2022
 // IDE : Arduino IDE 2.X
-// Description : A multisensor manager to read sensor data from third party program over serial port
+// Description : A multisensor reader to read sensor data from third party program over serial port
 // ##################################
 
 

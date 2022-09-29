@@ -1,34 +1,57 @@
-int triggerpin = 10;
-int echopin = 11;
+int trigPin = 11;
+int echoPin = 12;
 int ledpin = 13;
-int time;
-int distance;
+int Buzzerpin = 10;
+int duration;
+float distance;
+int distance_limit = 50;
+
+bool isBuzzer = false;
+
+
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(triggerpin, OUTPUT);
-  pinMode(echopin, INPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(Buzzerpin, OUTPUT);
+  pinMode(echoPin, INPUT);
   pinMode(13, OUTPUT);
 }
 
 void loop() {
-  digitalWrite(triggerpin, HIGH);
+  if (millis() % 1000 == 0) {
+    distance=calculate_distance();
+    if (distance < distance_limit) {
+      toggleAlert();
+
+    } else {
+      digitalWrite(Buzzerpin, LOW);
+      digitalWrite(ledpin, LOW);
+    }
+  }
+}
+
+float calculate_distance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(triggerpin, LOW);
-  time = pulseIn(echopin, HIGH);
-  distance = (time * 0.034);
-  if (distance <= 50) {
-    Serial.println("Door Open");
-    Serial.print("distance=");
-    Serial.println(distance);
-    digitalWrite(13, HIGH);
-    delay(500);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+  return distance;
+}
+
+
+void toggleAlert() {
+  if (isBuzzer) {
+    digitalWrite(Buzzerpin, LOW);
+    digitalWrite(ledpin, LOW);
+    isBuzzer = false;
   } else {
-    Serial.println("Door Close");
-    Serial.print("distance=");
-    Serial.println(distance);
-    digitalWrite(13, LOW);
-    delay(500);
+    digitalWrite(Buzzerpin, HIGH);
+    digitalWrite(ledpin, HIGH);
+    isBuzzer = true;
   }
 }
