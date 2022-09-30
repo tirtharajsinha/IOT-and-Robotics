@@ -7,13 +7,7 @@
 // ##################################
 
 
-
-
-
-
 #include <Servo.h>
-
-
 
 
 // variable and const declearation
@@ -42,10 +36,11 @@ long duration;
 int distinCM;
 
 // auto control
-bool isServoAutoControl = true;
+bool isServoAutoControl = false;
+bool isIncreasing = true;
 
 String curDis;  // current distance upon angle
-long distance_limit=50;
+long distance_limit = 50;
 
 // sensor declearation
 Servo radarServo;
@@ -67,6 +62,7 @@ void setup() {
 
   // starting the servo
   radarServo.attach(servopin);
+  radarServo.write(0);
 }
 
 void loop() {
@@ -75,8 +71,14 @@ void loop() {
     String command = Serial.readString();
     manage_command(command);
   }
+  if (millis() % 200 == 0) {
+    if (isServoAutoControl) {
+      autoRotateServo();
+    }
+  }
   // reading sensor in every 1s
   if (millis() % 1000 == 0) {
+
     curDis = calculate_distance(curLoc);
     Serial.println(curDis);
   }
@@ -89,13 +91,49 @@ void manage_command(String command) {
   } else if (command.indexOf("servo") >= 0) {
     int angleReq = command.substring(5).toInt();
     rotateServo(angleReq);
+  } else if (command.indexOf("buzzer") >= 0) {
+    toggleBuzzer();
+  } else if (command.indexOf("auto") >= 0) {
+    if (isServoAutoControl) {
+      isServoAutoControl = false;
+    } else {
+      isServoAutoControl = true;
+    }
   }
 }
 
 void rotateServo(int angel) {
+  if (!isServoAutoControl) {
+    if (angel > curLoc) {
+      for (int i = curLoc; i <= angel; i++) {
+        radarServo.write(i);
+        delay(50);
+      }
+    } else {
+      for (int i = curLoc; i >= angel; i--) {
+        radarServo.write(i);
+        delay(50);
+      }
+    }
+    curLoc = angel;
+  }
   // Serial.println(angel);
-  radarServo.write(angel);
-  curLoc = angel;
+}
+
+void autoRotateServo() {
+  if (isIncreasing) {
+    curLoc++;
+  } else {
+    curLoc--;
+  }
+
+  if (curLoc == 180) {
+    isIncreasing = false;
+  } else if (curLoc == 0) {
+    isIncreasing = true;
+  }
+
+  radarServo.write(curLoc);
 }
 
 void toggleLED(int led) {
@@ -135,16 +173,7 @@ String calculate_distance(int i) {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distinCM = duration * 0.034 / 2;
-  
-  
-  // if (distinCM < distance_limit) {
-  //   toggleLED(1);
-  //   toggleBuzzer();
-  // }
-  // else{
-  //   digitalWrite(ledpin1, LOW);
-  //   digitalWrite(Buzzerpin, LOW);
-  // }
+
 
   return String(i) + "#" + String(distinCM);
 }

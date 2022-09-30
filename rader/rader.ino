@@ -1,9 +1,9 @@
 #include <Servo.h>
 
 
-const int trigPin = 10;
-const int echoPin = 11;
-const int servopin = 12;
+const int trigPin = 4;
+const int echoPin = 5;
+const int servopin = 6;
 
 long duration;
 int distinCM;
