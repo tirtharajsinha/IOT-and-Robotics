@@ -104,7 +104,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 <body>
     <div class="nev">
-        <h1>ESP32 LED CONTROLLER</h1>
+        <h1>%SERVER_TITLE%</h1>
         <div class="circle"></div>
     </div>
 

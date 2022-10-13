@@ -1,15 +1,10 @@
 #include <WiFi.h>
-#include "index.h"
 #include <ESPAsyncWebServer.h>
+#include "index.h"
 
-/* Put your SSID & Password */
-const char* ssid = "ESP32";         // Enter SSID here
-const char* password = "12345678";  //Enter Password here
-
-/* Put IP Address details */
-IPAddress local_ip(192, 168, 1, 1);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
+/*Put your SSID & Password*/
+const char* ssid = "Tirtha";           // Enter SSID here
+const char* password = "12233344440";  //Enter Password here
 
 AsyncWebServer server(80);
 
@@ -19,23 +14,45 @@ bool LED1status = LOW;
 uint8_t LED2pin = 5;
 bool LED2status = LOW;
 
-Connact_AP(){
-   WiFi.softAP(ssid, password);
-  WiFi.softAPConfig(local_ip, gateway, subnet);
+void Connect_STATION() {
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+
+  Serial.print("Connecting to : ");
+  Serial.println(ssid);
+
+
+  //connect to your local wi-fi network
+  WiFi.begin(ssid, password);
+
+  //check wi-fi is connected to wi-fi network
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected..!");
+  Serial.print("Got IP: ");
+  Serial.println(WiFi.localIP());
+  WiFi.setAutoReconnect(true);
+  WiFi.persistent(true);
   delay(100);
 }
 
 void setup() {
   Serial.begin(115200);
+
+  Connect_STATION();
+
   pinMode(LED1pin, OUTPUT);
   pinMode(LED2pin, OUTPUT);
 
-  Connact_AP();
- 
 
   server.on("/", handle_OnConnect);
   server.on("/led1", HTTP_GET, handle_led1on);
+  // server.on("/led1", handle_led1off);
   server.on("/led2", HTTP_GET, handle_led2on);
+
   server.onNotFound([](AsyncWebServerRequest* request) {
     request->send(404);
   });
@@ -106,7 +123,7 @@ String processor(const String& var) {
   //Serial.println(var);
   if (var == "BUTTON_TYPE") {
     String buttons = "";
-    
+
     if (LED1status) {
       buttons += btn1off;
     } else {
@@ -119,9 +136,10 @@ String processor(const String& var) {
       buttons += btn2on;
     }
 
-
-
     return buttons;
+  } else if (var == "SERVER_TITLE") {
+    return "ESP32 Devkit v1";
   }
+
   return String();
 }
