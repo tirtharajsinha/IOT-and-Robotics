@@ -18,7 +18,7 @@ bool LED1status = LOW;
 
 uint8_t LED2pin = 5;
 bool LED2status = LOW;
-
+ 
 void Connact_AP() {
   WiFi.softAP(ssid, password);
   WiFi.softAPConfig(local_ip, gateway, subnet);

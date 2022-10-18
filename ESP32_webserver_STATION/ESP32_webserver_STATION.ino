@@ -1,10 +1,11 @@
-#include <WiFi.h>
+// #include <WiFi.h>
+#include <esp_wifi.h>
 #include <ESPAsyncWebServer.h>
 #include "index.h"
 
 /*Put your SSID & Password*/
-const char* ssid = "Tirtha";           // Enter SSID here
-const char* password = "12233344440";  //Enter Password here
+const char* ssid = "TirthaWAP";           // Enter SSID here
+const char* password = "tirtha098";  //Enter Password here
 
 AsyncWebServer server(80);
 
@@ -16,7 +17,7 @@ bool LED2status = LOW;
 
 void Connect_STATION() {
   WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
+  esp_wifi_set_ps(WIFI_PS_NONE);
 
   Serial.print("Connecting to : ");
   Serial.println(ssid);
@@ -62,6 +63,11 @@ void setup() {
 }
 void loop() {
   // server.handleClient();
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
   if (LED1status) {
     digitalWrite(LED1pin, HIGH);
   } else {

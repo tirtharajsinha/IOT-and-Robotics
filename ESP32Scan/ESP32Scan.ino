@@ -7,8 +7,22 @@
 
 void setup() {
   Serial.begin(115200);
+  scan();
+}
 
-  // Set WiFi to station mode and disconnect from an AP if it was previously connected
+void loop() {
+  if(Serial.available()){
+    String command=Serial.readString();
+    if(command=="scan"){
+      scan();
+    }
+  }
+  
+}
+
+
+
+void scan() {
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
@@ -34,7 +48,5 @@ void setup() {
     }
   }
   Serial.println("");
-}
-
-void loop() {
+  WiFi.disconnect();
 }
