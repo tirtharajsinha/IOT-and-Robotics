@@ -104,7 +104,10 @@ git reset --hard origin/main
 8. Arduino MKR Vidor 4000
 9. Arduino MKR Zero
 
-
+### Portena family(Arduino Pro)
+1. Portena H7
+2. Portena X8
+3. Portena Max Carrier(Carrier for portena)
 
 ## Additional Board managers
 
@@ -134,7 +137,7 @@ git reset --hard origin/main
 
     - Click install button.
 
-    - Don’t forget to select your ESP8266 board from Tools > Board menu after installation.
+    - Don’t forget to select your ESP32 board from Tools > Board menu after installation.
 
 
 ## Additional Libraries for esp8266/esp32

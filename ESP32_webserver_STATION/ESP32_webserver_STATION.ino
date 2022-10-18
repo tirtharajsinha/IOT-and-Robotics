@@ -4,8 +4,8 @@
 #include "index.h"
 
 /*Put your SSID & Password*/
-const char* ssid = "TirthaWAP";           // Enter SSID here
-const char* password = "tirtha098";  //Enter Password here
+const char* ssid = "Tirtha";           // Enter SSID here
+const char* password = "12233344440";  //Enter Password here
 
 AsyncWebServer server(80);
 
