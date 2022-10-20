@@ -1,163 +1,224 @@
+/*
+  WiFiManager with saved textboxes Demo
+  wfm-text-save-demo.ino
+  Saves data in JSON file on ESP32
+  Uses SPIFFS
+
+  DroneBot Workshop 2022
+  https://dronebotworkshop.com
+
+  Functions based upon sketch by Brian Lough
+  https://github.com/witnessmenow/ESP32-WiFi-Manager-Examples
+*/
+
+#define ESP_DRD_USE_SPIFFS true
+
+// Include Libraries
+
+// WiFi Library
 #include <WiFi.h>
-#include <ESPAsyncWebServer.h>
-#include "index.h"
+// File System Library
+#include <FS.h>
+// SPI Flash Syetem Library
+#include <SPIFFS.h>
+// WiFiManager Library
+#include <WiFiManager.h>
+// Arduino JSON library
+#include <ArduinoJson.h>
 
-/*Put your STA SSID & Password*/
-const char* STA_ssid = "Tirtha";           // Enter SSID here
-const char* STA_password = "12233344440";  //Enter Password here
+// JSON configuration file
+#define JSON_CONFIG_FILE "/test_config.json"
 
-/* Put your AP SSID & Password */
-const char* AP_ssid = "ESP32";         // Enter SSID here
-const char* AP_password = "12345678";  //Enter Password here
+// Flag for saving data
+bool shouldSaveConfig = false;
 
-/* Put IP Address details */
-IPAddress local_ip(192, 168, 1, 1);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
+// Variables to hold data from custom textboxes
+char testString[50] = "test value";
+int testNumber = 1234;
 
-AsyncWebServer server(80);
+// Define WiFiManager Object
+WiFiManager wm;
 
-uint8_t LED1pin = 2;
-bool LED1status = LOW;
+void saveConfigFile()
+// Save Config in JSON format
+{
+  Serial.println(F("Saving configuration..."));
 
-uint8_t LED2pin = 5;
-bool LED2status = LOW;
+  // Create a JSON document
+  StaticJsonDocument<512> json;
+  json["testString"] = testString;
+  json["testNumber"] = testNumber;
 
-void Connect_AP_STATION() {
-  WiFi.mode(WIFI_MODE_APSTA);
-  WiFi.disconnect();
-
-
-  // AP mode connection
-  WiFi.softAP(AP_ssid, AP_password);
-  WiFi.softAPConfig(local_ip, gateway, subnet);
-  delay(100);
-
-
-  // Connecting to STA mode
-  Serial.print("Connecting to : ");
-  Serial.println(STA_ssid);
-
-
-  //connect to your local wi-fi network
-  WiFi.begin(STA_ssid, STA_password);
-
-  //check wi-fi is connected to wi-fi network
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
+  // Open config file
+  File configFile = SPIFFS.open(JSON_CONFIG_FILE, "w");
+  if (!configFile) {
+    // Error, file did not open
+    Serial.println("failed to open config file for writing");
   }
-  Serial.println("");
-  Serial.println("WiFi connected..!");
-  Serial.print("Got IP: ");
-  Serial.println(WiFi.localIP());
-  WiFi.setAutoReconnect(true);
-  WiFi.persistent(true);
-  delay(100);
+
+  // Serialize JSON data to write to file
+  serializeJsonPretty(json, Serial);
+  if (serializeJson(json, configFile) == 0) {
+    // Error writing file
+    Serial.println(F("Failed to write to file"));
+  }
+  // Close file
+  configFile.close();
 }
 
+bool loadConfigFile()
+// Load existing configuration file
+{
+  // Uncomment if we need to format filesystem
+  // SPIFFS.format();
+
+  // Read configuration from FS json
+  Serial.println("Mounting File System...");
+
+  // May need to make it begin(true) first time you are using SPIFFS
+  if (SPIFFS.begin(false) || SPIFFS.begin(true)) {
+    Serial.println("mounted file system");
+    if (SPIFFS.exists(JSON_CONFIG_FILE)) {
+      // The file exists, reading and loading
+      Serial.println("reading config file");
+      File configFile = SPIFFS.open(JSON_CONFIG_FILE, "r");
+      if (configFile) {
+        Serial.println("Opened configuration file");
+        StaticJsonDocument<512> json;
+        DeserializationError error = deserializeJson(json, configFile);
+        serializeJsonPretty(json, Serial);
+        if (!error) {
+          Serial.println("Parsing JSON");
+
+          strcpy(testString, json["testString"]);
+          testNumber = json["testNumber"].as<int>();
+
+          return true;
+        } else {
+          // Error loading JSON data
+          Serial.println("Failed to load json config");
+        }
+      }
+    }
+  } else {
+    // Error mounting file system
+    Serial.println("Failed to mount FS");
+  }
+
+  return false;
+}
+
+
+void saveConfigCallback()
+// Callback notifying us of the need to save configuration
+{
+  Serial.println("Should save config");
+  shouldSaveConfig = true;
+}
+
+void configModeCallback(WiFiManager *myWiFiManager)
+// Called when config mode launched
+{
+  Serial.println("Entered Configuration Mode");
+
+  Serial.print("Config SSID: ");
+  Serial.println(myWiFiManager->getConfigPortalSSID());
+
+  Serial.print("Config IP Address: ");
+  Serial.println(WiFi.softAPIP());
+}
 
 void setup() {
+  // Change to true when testing to force configuration every time we run
+  bool forceConfig = false;
+
+  bool spiffsSetup = loadConfigFile();
+  if (!spiffsSetup) {
+    Serial.println(F("Forcing config mode as there is no saved config"));
+    forceConfig = true;
+  }
+
+  // Explicitly set WiFi mode
+  WiFi.mode(WIFI_STA);
+
+  // Setup Serial monitor
   Serial.begin(115200);
+  delay(10);
 
-  Connect_AP_STATION();
+  // Reset settings (only for development)
+  wm.resetSettings();
 
-  pinMode(LED1pin, OUTPUT);
-  pinMode(LED2pin, OUTPUT);
+  // Set config save notify callback
+  wm.setSaveConfigCallback(saveConfigCallback);
+
+  // Set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
+  wm.setAPCallback(configModeCallback);
+
+  // Custom elements
+
+  // Text box (String) - 50 characters maximum
+  WiFiManagerParameter custom_text_box("key_text", "Enter your string here", testString, 50);
+
+  // Need to convert numerical input to string to display the default value.
+  char convertedValue[6];
+  sprintf(convertedValue, "%d", testNumber);
+
+  // Text box (Number) - 7 characters maximum
+  WiFiManagerParameter custom_text_box_num("key_num", "Enter your number here", convertedValue, 7);
+
+  // Add all defined parameters
+  wm.addParameter(&custom_text_box);
+  wm.addParameter(&custom_text_box_num);
+
+  if (forceConfig)
+  // Run if we need a configuration
+  {
+    if (!wm.startConfigPortal("NEWTEST_AP", "password")) {
+      Serial.println("failed to connect and hit timeout");
+      delay(3000);
+      //reset and try again, or maybe put it to deep sleep
+      ESP.restart();
+      delay(5000);
+    }
+  } else {
+    if (!wm.autoConnect("NEWTEST_AP", "password")) {
+      Serial.println("failed to connect and hit timeout");
+      delay(3000);
+      // if we still have not connected restart and try all over again
+      ESP.restart();
+      delay(5000);
+    }
+  }
+
+  // If we get here, we are connected to the WiFi
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  // Lets deal with the user config values
+
+  // Copy the string value
+  strncpy(testString, custom_text_box.getValue(), sizeof(testString));
+  Serial.print("testString: ");
+  Serial.println(testString);
+
+  //Convert the number value
+  testNumber = atoi(custom_text_box_num.getValue());
+  Serial.print("testNumber: ");
+  Serial.println(testNumber);
 
 
-  server.on("/", handle_OnConnect);
-  server.on("/led1", HTTP_GET, handle_led1on);
-  // server.on("/led1", handle_led1off);
-  server.on("/led2", HTTP_GET, handle_led2on);
-
-  server.onNotFound([](AsyncWebServerRequest* request) {
-    request->send(404);
-  });
-
-  server.begin();
-  Serial.println("HTTP server started");
+  // Save the custom parameters to FS
+  if (shouldSaveConfig) {
+    saveConfigFile();
+  }
 }
+
+
+
+
 void loop() {
-  // server.handleClient();
-  if (LED1status) {
-    digitalWrite(LED1pin, HIGH);
-  } else {
-    digitalWrite(LED1pin, LOW);
-  }
-
-  if (LED2status) {
-    digitalWrite(LED2pin, HIGH);
-  } else {
-    digitalWrite(LED2pin, LOW);
-  }
-}
-
-void handle_OnConnect(AsyncWebServerRequest* request) {
-  Serial.println("GPIO4 Status: OFF | GPIO5 Status: OFF");
-  request->send_P(200, "text/html", index_html, processor);
-}
-
-void handle_led1on(AsyncWebServerRequest* request) {
-  String ledreq = "";
-  if (request->hasParam("state")) {
-    ledreq = request->getParam("state")->value();
-  }
-  Serial.println("led request" + ledreq);
-
-  if (ledreq == "ON") {
-    LED1status = HIGH;
-    Serial.println("GPIO4 Status: ON");
-  } else if (ledreq = "OFF") {
-    LED1status = LOW;
-    Serial.println("GPIO4 Status: OFF");
-  }
-
-  request->redirect("/");
-}
-
-
-
-void handle_led2on(AsyncWebServerRequest* request) {
-  String ledreq = "";
-  if (request->hasParam("state")) {
-    ledreq = request->getParam("state")->value();
-  }
-
-  if (ledreq == "ON") {
-    LED2status = HIGH;
-    Serial.println("GPIO5 Status: ON");
-  } else if (ledreq = "OFF") {
-    LED2status = LOW;
-    Serial.println("GPIO5 Status: OFF");
-  }
-
-  request->redirect("/");
-}
-
-
-
-String processor(const String& var) {
-  //Serial.println(var);
-  if (var == "BUTTON_TYPE") {
-    String buttons = "";
-
-    if (LED1status) {
-      buttons += btn1off;
-    } else {
-      buttons += btn1on;
-    }
-
-    if (LED2status) {
-      buttons += btn2off;
-    } else {
-      buttons += btn2on;
-    }
-
-    return buttons;
-  } else if (var == "SERVER_TITLE") {
-    return "ESP32 Devkit v1";
-  }
-
-  return String();
+  // put your main code here, to run repeatedly:
 }
