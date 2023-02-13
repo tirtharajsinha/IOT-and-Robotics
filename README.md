@@ -1,6 +1,7 @@
 # Arduino & ESP Guide with Codes + Circuit Digram
 **All of my Arduino & ESP projects**
 
+<img src="banner.jpg" alt="">
 
 ## IOT Boards
 - Arduino AVR boards
@@ -116,7 +117,9 @@ git reset --hard origin/main
 2. Portena X8
 3. Portena Max Carrier(Carrier for portena)
 
-## Additional Board managers
+
+
+## ESP based boards
 
 1. ### esp8266 
     - Start Arduino and open Preferences window.
@@ -204,8 +207,16 @@ git reset --hard origin/main
     ```
 
 
+## Setup Processing
+> Processing is free, open source software based on Java. It was designed for the visual arts community for creating drawings, animations, and interactive programs. Download the latest version of Processing from [Processing.org](https://Processing.org). Select the right file according to your operating system. Processing is available for Linux, Mac OS X, and Windows. Extract all the files and click the Processing icon inside the folder to open it. The Processing IDE interface is very simple. The play icon in the toolbar allows you to compile and run the program and the stop icon will stop the program. In the bottom of the IDE there is a message area that, when you compile your program, gives you information about errors if any. 
+
+`It can visualize data receied through serial connection.`
+
+- Notice: Don't use any serial monitor when processing script is running. Two program can't access the serial port at same time.
+
+In Some Projects `processing` has been used. Like : [Radar](https://github.com/tirtharajsinha/arduino/tree/main/rader)
 
 
 <hr>
 
-## -- By **Tirtharaj Sinha**
+<p style="font-size:20px; font-weight:600; text-align:right;"> -- By Tirtharaj Sinha</p>
