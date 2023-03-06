@@ -1,48 +1,67 @@
 # Arduino & ESP Guide with Codes + Circuit Digram
 
-**All of my Arduino & ESP projects**
-
 <img src="banner.jpg" alt="">
 
-## IOT Boards
+## Microcontroller IOT Boards
 
-- Arduino AVR boards(UNO,MEGA,NANO,LEONARDO etc)
-- ESP8266(Additonal board installation required)
-- ESP32(Additional board installation required)
+- [Arduino boards](https://en.wikipedia.org/wiki/List_of_Arduino_boards_and_compatible_systems) (UNO,MEGA,NANO,LEONARDO etc)
+- ESP8266 nodeMCU (Arduino + Micropython)
+- ESP32 DevKit(Arduino + Micropython)
 
-## Minimal component requirements
+## Minimal Component Requirements
 
-- One of the above board
-- led(Red green blue)
+- One of the above board(Recommended : Arduino UNO)
+- _USB type A_ to _USB type B_ connector for arduino
+- led(Red,green,blue)
 - jumpers(MtoM and MtoF)
 - breadboard
-- usb connector for arduino
-- register(220ohm,1Kohm,10Kohm)
-
-## Sensors and modules(not mendatory)
-
-- ultrasonic distance sensor\*
-- DHT11 temparature and humidity sensor\*
-- PIR Motion sensor
-- Servo motor
-- ESP8266 wifi module
-- bluetooth module
-- buzzer
-- touch sersor
-- 16x2 LCD
-- 7 segment display
-- potentiometer
-- stepper motor
-- motor controller shield
-- capacitor(220 microfarad,47microfarad)
-- IR receiver
-- IR remote
+- Register(220ohm,1Kohm,10Kohm)
+- capacitor(220 microfarad,47 microfarad)
+- Buzzer
 - 8mm common anode RGB led
+- Potentiometer
+
+## Sensors and Modules(Required : based on project)
+
+### Sensors
+
+- HC-SR04 Ultrasonic distance sensor\*
+- DHT11 temparature and humidity sensor\*
+- BISS0001 PIR Motion sensor
 - MPU-6050 3-Axis Accelerometer and Gyro Sensor
-- .96inch OLED I2C display
+- _TTP223B_ Capacitive Touch Sensor Module
 - LM393 Sound Detection Module
+- IR receiver + Remote
+
+### Wireless Modules
+
+- ESP-01 ESP8266 Serial WIFI Module
+- HC-05 Bluetooth Module
+
+### Displays
+
+- 16x2 LCD
+- Single digit _7 segment_ display
+- 0.96inch OLED I2C display
+
+### Motors
+
+- 12V 200 RPM DC Motor
+- 28BYJ-48 Unipolar Stepper Motor
+- SG90 Servo Motor (180° Rotation)
+
+#### Motor Drivers
+
+- L293D Motor Driver Shield(Arduino UNO/Mega)
+- L293D Motor Driver Board for ESP8266 NodeMcu 12E
+- L298N motor driver module
+- ULN2003 Stepper Motor Driver
+- A4988 driver Stepper Motor Driver
+
+### Others
+
 - 2N2222 transistor
-- 2/4 -channel 5V relay module
+- 2/4 - channel 5V relay module
 
 ## Softwere requirements
 
@@ -52,20 +71,19 @@
 
 ## How to get started
 
-> Clone this repository
+**_Install the Arduino IDE & Clone this repository_**
 
 ```
 git clone git@github.com:tirtharajsinha/arduino.git
 ```
 
-1. Connect the arduino board
-2. open the arduino IDE
+1. Connect the arduino board via USB.
+2. Open the arduino IDE
 3. select the board and port number(something like `COM5`)
-4. Now open any .ino in arduino ide.
-5. install the required libraries listed below.
-6. Connect the circuit available the .ino code location.
-7. Open the arduino ide and validate and upload the script.
-8. If you see one led lights up then you are good to go. othewise contact maintainer. if maintainer refuses then you are fucked up.
+4. Now open `LED_BLINK/LED_BLINK.ino` in arduino ide.
+5. Connect the circuit diagram available the .ino code location.
+6. Open the arduino ide and validate and upload the script.
+7. If you see led lights up and down periodically then you are good to go. othewise contact a experienced friend. if you friend refuses then your are fucked up, go search on youtube.
 
 ## Upstream the repository
 
