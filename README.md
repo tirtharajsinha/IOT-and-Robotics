@@ -1,4 +1,4 @@
-# Arduino & ESP Guide with Codes + Circuit Digram
+# IoT & Robotics projects with Codes + Circuit Digram
 
 <img src="banner.jpg" alt="">
 
@@ -6,7 +6,8 @@
 
 - [Arduino boards](https://en.wikipedia.org/wiki/List_of_Arduino_boards_and_compatible_systems) (UNO,MEGA,NANO,LEONARDO etc)
 - ESP8266 nodeMCU (Arduino + Micropython)
-- ESP32 DevKit(Arduino + Micropython)
+- ESP32 DevKit(Arduino + Micropython + CircuitPython)
+- ESP32 S3 DevkitC-1 N8R8(Micropython + CircuitPython)
 
 ## Minimal Component Requirements
 
@@ -74,7 +75,7 @@
 **_Install the Arduino IDE & Clone this repository_**
 
 ```
-git clone git@github.com:tirtharajsinha/arduino.git
+git clone https://github.com/tirtharajsinha/IOT-and-Robotics.git
 ```
 
 1. Connect the arduino board via USB.
@@ -89,7 +90,7 @@ git clone git@github.com:tirtharajsinha/arduino.git
 
 ```
 git reset --hard origin/main
-git remote add upstream https://github.com/tirtharajsinha/arduino.git
+git remote add upstream https://github.com/tirtharajsinha/IOT-and-Robotics.git
 git fetch upstream
 git checkout main
 git merge upstream/main
@@ -154,7 +155,7 @@ git reset --hard origin/main
 2. Portena X8
 3. Portena Max Carrier(Carrier for portena)
 
-## ESP based boards
+## Tested ESP based boards
 
 1. ### esp8266
 
@@ -172,7 +173,7 @@ git reset --hard origin/main
 
 <hr>
 
-2. ### esp32
+2. ### esp32 and ESP32 S3 Devkit
 
    - Start Arduino and open Preferences window.
 
@@ -252,15 +253,65 @@ git reset --hard origin/main
   esptool --port <PORT_NO> erase_flash
   ```
 
-## Setup Processing
+## CircuitPython(Some selected boards are supported)
 
-> Processing is free, open source software based on Java. It was designed for the visual arts community for creating drawings, animations, and interactive programs. Download the latest version of Processing from [Processing.org](https://Processing.org). Select the right file according to your operating system. Processing is available for Linux, Mac OS X, and Windows. Extract all the files and click the Processing icon inside the folder to open it. The Processing IDE interface is very simple. The play icon in the toolbar allows you to compile and run the program and the stop icon will stop the program. In the bottom of the IDE there is a message area that, when you compile your program, gives you information about errors if any.
+### Common boards that supported by micropython
 
-`It can visualize data receied through serial connection.`
+1. All esp based boards.
+2. Arduino nano RP2040 connect and Arduino Nano 33 BLE Sense
+3. Arduino pro portena H7
+4. all pyboards
+5. Raspberry Pi pico & Pico W
+6. BBC micro:bit v1
+7. Adafruit Feather series
 
-- Notice: Don't use any serial monitor when processing script is running. Two program can't access the serial port at same time.
+### Firmware and IDE Installation
 
-In Some Projects `processing` has been used. Like : [Radar](https://github.com/tirtharajsinha/arduino/tree/main/rader)
+- First read circuit [docs](https://docs.circuitpython.org/en/latest/README.html) to check if your CircuitPython support your board.
+
+- Here booting circuitpython is only tested on esp boards so if you have diffrent board then try to search it online.
+
+- Download the micropython firmware file(.bin) [here.](https://circuitpython.org/downloads)
+
+- Install the flash tool for esp boards :
+
+  ```
+  pip install esptool
+  ```
+
+  or
+
+  ```
+  pip3 install esptool
+  ```
+
+  verify installation with `esptool --help` command.
+
+- Connect the esp board wit your computer and get the port number. It should be like `COM5 or /dev/ttyUSB0`
+
+- Now open cmd where you downloaded the firmware/bin file.
+- Run the following commands : <br>
+  **Notice** : After entering the command before pressing `Enter` press the boot button in your esp board and press enter in your keyboard don't unpress until command executes.<br>
+  **Erase previous firmware**
+  ```
+  esptool --port <PORT_NO> erase_flash
+  ```
+  **Install micropython firmware**
+  ```
+  esptool --port <PORT_NO> --baud 460800 write_flash --flash_size=detect 0 <FIRMWARE.bin>
+  ```
+- Now you need a IDE. I prefer thonny for this. For Installation guide follow this [blog form Adafruit](https://learn.adafruit.com/circuitpython-libraries-on-micropython-using-the-raspberry-pi-pico/thonny-setup).
+
+- To remove flash, Run the following command :
+  ```
+  esptool --port <PORT_NO> erase_flash
+  ```
+
+### Install CircuitPython packages
+
+CircuitPython libraries are written in Python. They provide additional functionality and support external devices, beyond what is in CircuitPython itself.After connect your board to your computers usb you should see a drive named _CIRCUITPY_. Libraries are stored on your CIRCUITPY drive in a folder called lib.
+
+You can get the library packages bundle from [here](https://circuitpython.org/libraries) or find the indevidual library from thonny package installer.
 
 <hr>
 
