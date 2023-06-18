@@ -265,42 +265,21 @@ git reset --hard origin/main
 6. BBC micro:bit v1
 7. Adafruit Feather series
 
-### Firmware and IDE Installation
+### Tested Boards
+
+- ESP32,ESP32 S3
+
+### Firmware Installation
 
 - First read circuit [docs](https://docs.circuitpython.org/en/latest/README.html) to check if your CircuitPython support your board.
 
 - Here booting circuitpython is only tested on esp boards so if you have diffrent board then try to search it online.
 
-- Download the micropython firmware file(.bin) [here.](https://circuitpython.org/downloads)
+- Download the circuitpython _BOOTLOADER ZIP_ and .uf2 file [here.](https://circuitpython.org/downloads)
 
-- Install the flash tool for esp boards :
+- `[Recommended Method]` follow the Install, Repair, or Update UF2 Bootloader instruction in Adafruit site.
 
-  ```
-  pip install esptool
-  ```
-
-  or
-
-  ```
-  pip3 install esptool
-  ```
-
-  verify installation with `esptool --help` command.
-
-- Connect the esp board wit your computer and get the port number. It should be like `COM5 or /dev/ttyUSB0`
-
-- Now open cmd where you downloaded the firmware/bin file.
-- Run the following commands : <br>
-  **Notice** : After entering the command before pressing `Enter` press the boot button in your esp board and press enter in your keyboard don't unpress until command executes.<br>
-  **Erase previous firmware**
-  ```
-  esptool --port <PORT_NO> erase_flash
-  ```
-  **Install micropython firmware**
-  ```
-  esptool --port <PORT_NO> --baud 460800 write_flash --flash_size=detect 0 <FIRMWARE.bin>
-  ```
-- Now you need a IDE. I prefer thonny for this. For Installation guide follow this [blog form Adafruit](https://learn.adafruit.com/circuitpython-libraries-on-micropython-using-the-raspberry-pi-pico/thonny-setup).
+- For reference Follow this [Youtube Video](https://www.youtube.com/watch?v=RYkwgs5rXBM).
 
 - To remove flash, Run the following command :
   ```
@@ -312,6 +291,12 @@ git reset --hard origin/main
 CircuitPython libraries are written in Python. They provide additional functionality and support external devices, beyond what is in CircuitPython itself.After connect your board to your computers usb you should see a drive named _CIRCUITPY_. Libraries are stored on your CIRCUITPY drive in a folder called lib.
 
 You can get the library packages bundle from [here](https://circuitpython.org/libraries) or find the indevidual library from thonny package installer.
+
+### IDE/Text Editor Installation
+
+- Now you need a IDE. I prefer **_thonny_** for this as it has REPL terminal For Installation guide follow this [blog form Adafruit](https://learn.adafruit.com/circuitpython-libraries-on-micropython-using-the-raspberry-pi-pico/thonny-setup).
+
+- For just minor editing you can use **_VS Code_**.
 
 <hr>
 
