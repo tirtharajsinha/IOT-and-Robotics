@@ -5,9 +5,8 @@
 ## Microcontroller IOT Boards
 
 - [Arduino boards](https://en.wikipedia.org/wiki/List_of_Arduino_boards_and_compatible_systems) (UNO,MEGA,NANO,LEONARDO etc)
-- ESP8266 nodeMCU (Arduino + Micropython)
-- ESP32 DevKit(Arduino + Micropython + CircuitPython)
-- ESP32 S3 DevkitC-1 N8R8(Micropython + CircuitPython)
+- ESP8266/ESP32/ESP S/C/H DevKit
+- Raspberry Pi Pico /W
 
 ### Minimal Component Requirements
 
@@ -180,6 +179,28 @@ As ESP based borads are also available from third-party manufactures like adafru
 - PlatformIO (C)
 - Thonny (MicroPython,CircuitPython)
 - nanoFramework(C#)
+
+### Raspberry Pi 2040 Based Boards
+
+1. Raspberry Pi Pico /W.
+2. Adafruit Feather RP2040.
+3. Arduino Nano 2040 Connect.
+4. Cytron Maker Pi Pico.
+5. Adafruit QT Py RP2040.
+6. Seeed XIAO RP2040.
+7. Pimoroni Tufty 2040.
+8. Pimoroni Keybow 2040.
+9. Sparkfun Pro Micro.
+10. ... etc.
+
+### Development Environment and Languages for RP2040 based bords
+
+> RP2040 based board supports multiple development Environment and Languages
+
+- Arduino IDE (C++)
+- PlatformIO (C)
+- Thonny (MicroPython,CircuitPython)
+- C/C++ SDK
 
 # Setup of Development Environmnts
 
