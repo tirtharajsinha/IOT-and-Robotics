@@ -13,14 +13,14 @@ pixel_pin = board.NEOPIXEL
 num_pixels = 1
 current_color = (0, 0, 100)
 
-pixel = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.3)
+pixel = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.1)
 pixel.fill(current_color)
 
 print("Connecting to", ssid)
 wifi.radio.connect(ssid, password)
 print("Connected to", ssid)
 
-current_color = (0, 100, 100)
+current_color = (100, 100, 0)
 pixel.fill(current_color)
 
 mdns_server = mdns.Server(wifi.radio)
@@ -69,3 +69,4 @@ def change_neopixel_color_handler_url_params(
 
 
 server.serve_forever(str(wifi.radio.ipv4_address))
+
