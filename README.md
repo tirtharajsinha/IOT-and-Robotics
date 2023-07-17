@@ -11,7 +11,8 @@
 ### Minimal Component Requirements
 
 - One of the above board(Recommended : Arduino UNO)
-- _USB type A_ to _USB type B_ connector for arduino
+- _USB type A_ to _USB type B_ Connector Vable
+- _USB type A_ to _Micro USB_ Connector Cable
 - led(Red,green,blue)
 - jumpers(MtoM and MtoF)
 - breadboard
@@ -33,10 +34,11 @@
 - LM393 Sound Detection Module
 - IR receiver + Remote
 
-#### Wireless Modules
+#### Wireless/Communication Modules
 
 - ESP-01 ESP8266 Serial WIFI Module
 - HC-05 Bluetooth Module
+- Ublox Neo-6M GPS Receiver Module
 
 #### Displays
 
@@ -50,7 +52,7 @@
 - 28BYJ-48 Unipolar Stepper Motor
 - SG90 Servo Motor (180° Rotation)
 
-#### Motor Drivers
+#### Motor Drivers and Shields
 
 - L293D Motor Driver Shield(Arduino UNO/Mega)
 - L293D Motor Driver Board for ESP8266 NodeMcu 12E
@@ -120,7 +122,7 @@ git reset --hard origin/main
 
 ## Diffrent type arduino boards
 
-### Classic family
+#### Classic family
 
 1. Arduino UNO R3
 2. Arduino Mega 2560 Rev3
@@ -131,7 +133,7 @@ git reset --hard origin/main
 7. Arduino Zero
 8. Arduino UNO WiFi Rev2
 
-### Nano family
+#### Nano family
 
 1. Arduino Nano 33 IoT
 2. Arduino Nano RP2040 Connect
@@ -140,7 +142,7 @@ git reset --hard origin/main
 5. Arduino Nano Every
 6. Arduino Nano
 
-### MKR family
+#### MKR family
 
 1. Arduino MKR 1000 WiFi
 2. Arduino MKR WiFi 1010
@@ -152,7 +154,7 @@ git reset --hard origin/main
 8. Arduino MKR Vidor 4000
 9. Arduino MKR Zero
 
-### Portena family(Arduino Pro)
+#### Portena family(Arduino Pro)
 
 1. Portena H7
 2. Portena X8
@@ -160,7 +162,9 @@ git reset --hard origin/main
 
 ## ESP based boards
 
-As ESP based borads are also available from third-party manufactures like adafruit,unexpectedmaker,wemos etc. so listing all boards impossible. This [Page](https://www.espressif.com/en/products/modules) lists all esp official espressif products.Here we are only listing the popular ESP32 SOC series.
+As ESP based borads are also available from third-party manufactures like adafruit,unexpectedmaker,wemos etc. so listing all boards impossible. This [Page](https://www.espressif.com/en/products/modules) lists all esp official espressif products.
+
+#### Here we are only listing the popular ESP32 SOC series.
 
 1. ESP8266
 2. ESP32
@@ -199,8 +203,8 @@ As ESP based borads are also available from third-party manufactures like adafru
 
 - Arduino IDE (C++)
 - PlatformIO (C)
-- Thonny (MicroPython,CircuitPython)
-- C/C++ SDK
+- MicroPython,CircuitPython
+- RPi C/C++ SDK
 
 # Setup of Development Environmnts
 
@@ -233,6 +237,12 @@ Put these url into Additional Board Manager URLs field. You can add multiple URL
 - Click install button.
 
 - Don’t forget to select your esp board from Tools > Board menu after installation.
+
+#### Upload program to esp boards
+
+- for **Esp32/esp8266/C3** after initiate upload press and hold the `BOOT` button after upload done unpress boot button
+
+- For **Esp32 S2/S3/C6** - Before upload Go to `TOOLS` then `USB CDC on BOOT > Enable`, `update the UPLOAD MODE`. Now hit Upload.
 
 #### Additional/Importent Arduino Libraries for esp8266/esp32
 
