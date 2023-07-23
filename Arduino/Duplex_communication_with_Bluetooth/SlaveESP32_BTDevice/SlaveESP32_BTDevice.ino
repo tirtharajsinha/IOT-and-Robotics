@@ -1,0 +1,93 @@
+#include "esp_bt_main.h"
+
+#include "esp_bt_device.h"
+
+#include "BluetoothSerial.h"   // BT: Include the Serial bluetooth library
+#define LED_BT 2               // BT: Internal LED (or LED on the pin D2) for the connection indication (connected solid/disconnected blinking)
+unsigned long previousMillis;  // BT: Variable used for comparing millis counter (LED blinking)
+unsigned long previousMillis1;
+bool ledBtState = false;                // BT: Variable used to chage the indication LED state
+bool MasterConnected;                   // BT: Variable used to store the current connection state (true=connected/false=disconnected)
+String device_name = "ESP32-BT-Slave";  // BT: Variable used to store the CLIENT(slave) bluetooth device name
+
+
+
+// Find slave device's Mac Address in serial terminal.
+String MACadd = "03:B4:16:72:36:9C";  // BT: Variable used to store the CLIENT(slave) bluetooth Mac address; Use your own MAC address
+// BT: Bluetooth availabilty check
+#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
+#error Bluetooth is not enabled! Please run make menuconfig to and enable it
+#endif
+// BT: Serial Bluetooth availabilty check
+#if !defined(CONFIG_BT_SPP_ENABLED)
+#error Serial Bluetooth not available or not enabled. It is only available for the ESP32 chip.
+#endif
+
+BluetoothSerial SerialBT;  // BT: Set the Object SerialBT
+
+// BT: Bt_Status callback function
+void Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t* param) {
+
+  if (event == ESP_SPP_SRV_OPEN_EVT) {      // BT: Checks if the SPP Server connection is open, the event comes
+    Serial.println("Client Connected");     // BT: Write to the serial monitor
+    digitalWrite(LED_BT, HIGH);             // BT: Turn ON the bluetooth indication LED (solid light)
+    MasterConnected = true;                 // BT: Set the variable true = SERVER is connected to the CLIENT
+  } else if (event == ESP_SPP_CLOSE_EVT) {  // BT: Checks if the SPP connection is closed, the event comes
+    Serial.println("Client Disconnected");  // BT: Write to the serial monitor
+    digitalWrite(LED_BT, LOW);              // BT: Turn OFF the bluetooth indication LED
+    MasterConnected = false;                // BT: Set the variable false = SERVER connection lost
+  }
+}
+
+void printDeviceAddress() {
+
+  const uint8_t* point = esp_bt_dev_get_address();
+  for (int i = 0; i < 6; i++) {
+    char str[3];
+    sprintf(str, "%02X", (int)point[i]);
+    Serial.print(str);
+    if (i < 5) {
+      Serial.print(":");
+    }
+  }
+  Serial.println("");
+}
+
+void setup() {
+  pinMode(LED_BT, OUTPUT);  // BT: Set up the onboard LED pin as output
+  Serial.begin(115200);     // Sets the data rate in bits per second (baud) for serial data transmission
+
+  // BT: Define the Bt_Status callback
+  SerialBT.register_callback(Bt_Status);
+  // BT: Starts the bluetooth device with the name stored in the device_name variable
+  SerialBT.begin(device_name);
+  Serial.printf("The device with name \"%s\" and MAC address \"%s\" is started.\nNow you can pair it with Bluetooth!\n", device_name.c_str(), MACadd.c_str());
+}
+
+void loop() {
+  // BT: Blinking the bluetooth indication LED if the connection is not established
+  if (!MasterConnected) {
+
+    if (millis() - previousMillis1 >= 2000) {  // BT: Checks if 500ms is passed
+      printDeviceAddress();
+      previousMillis1 = millis();  // BT: Set previousMillis to current millis
+    }
+
+    if (millis() - previousMillis >= 500) {  // BT: Checks if 500ms is passed
+      if (ledBtState == false) {             // BT: Checks the leddState and toggles it
+        ledBtState = true;
+      } else {
+        ledBtState = false;
+      }
+      digitalWrite(LED_BT, ledBtState);  // BT: Set LED ON/OFF based onthe ledBtState variable
+      previousMillis = millis();         // BT: Set previousMillis to current millis
+    }
+  }
+  // BT: Data send/receive via bluetooth
+  if (Serial.available()) {         // BT: Checks if there are data from the serial monitor available
+    SerialBT.println(Serial.readString());  // BT: Sends the data via bluetooth
+  }
+  if (SerialBT.available()) {       // BT: Checks if there are data from the bluetooth available
+    Serial.println(SerialBT.readString());  // BT: Write the data to the serial monitor
+  }
+}

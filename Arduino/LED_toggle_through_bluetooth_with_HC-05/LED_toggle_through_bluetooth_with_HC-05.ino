@@ -2,7 +2,7 @@
 // HC-05 module is used here.
 // Pin config
 //+--------+-------------+
-//| HC-05  | Arduono UNO |
+//| HC-05  | Arduino UNO |
 //|--------+-------------+
 //| GND    | GND         |
 //| VCC    | 5V          |
