@@ -51,7 +51,7 @@ void checkDirectionX(double xval, double yval, double zval) {
 void checkDirectionY(double xval, double yval, double zval) {
   // Serial.println(y);
    int y = toDeg(yval);
-  if (y > 350 || y < 10) {
+  if (y > 340 || y < 20) {
     Serial.println("");
   } else if (y > 180) {
     Serial.println(" Right");
