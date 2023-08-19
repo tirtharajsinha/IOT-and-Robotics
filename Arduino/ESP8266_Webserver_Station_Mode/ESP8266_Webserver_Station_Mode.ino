@@ -2,8 +2,10 @@
 #include <ESP8266WebServer.h>
 
 /*Put WiFi SSID & Password*/
-const char* ssid = "SSID";   // Enter SSID here
-const char* password = "PASSWORD"; // Enter Password here
+const char* ssid = "SINHA_NCBN";   // Enter SSID here
+const char* password = "19061969"; // Enter Password here
+
+int LED = LED_BUILTIN;
 
 ESP8266WebServer server(80);
 
@@ -12,7 +14,7 @@ bool LEDstatus = LOW;
 void setup() {
   Serial.begin(9600);
   delay(100);
-  pinMode(D4, OUTPUT);
+  pinMode(LED, OUTPUT);
 
   Serial.println("Connecting to ");
   Serial.println(ssid);
@@ -43,10 +45,10 @@ void loop() {
   
   if(LEDstatus)
   {
-    digitalWrite(D4, HIGH);}
+    digitalWrite(LED, HIGH);}
   else
   {
-    digitalWrite(D4, LOW);}
+    digitalWrite(LED, LOW);}
 }
 
 void handle_OnConnect() {
