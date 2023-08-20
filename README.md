@@ -270,6 +270,12 @@ Follow [this tutorial](https://www.tomshardware.com/how-to/program-raspberry-pi-
 6. BBC micro:bit v1
 7. Adafruit Feather series
 
+### Micropython libraries:
+
+Find needed packages from [awesome-micropython.com](https://awesome-micropython.com/)
+
+Follow [This Guide](https://docs.micropython.org/en/latest/reference/packages.html) to install a micropython package.
+
 ### IDE Installation
 
 - Now you need a IDE. I prefer **_thonny_** for this as it has REPL terminal For Installation guide follow this [blog form Adafruit](https://learn.adafruit.com/circuitpython-libraries-on-micropython-using-the-raspberry-pi-pico/thonny-setup).
@@ -322,11 +328,24 @@ First read micropython [docs](https://micropython.org/download/) to check if you
   esptool.py --port <PORT_NO> erase_flash
   ```
 
+### Use circuitpython libraries through micropython
+
+First find your device is supported or not [here](https://circuitpython.org/blinka)
+
+Read installation docs [Docs from adafruit](https://cdn-learn.adafruit.com/downloads/pdf/circuitpython-libraries-on-micropython-using-the-raspberry-pi-pico.pdf)
+
 ## CircuitPython(Some selected boards are supported)
 
 - Find the [CircuitPython Docs](https://docs.circuitpython.org/en/latest/README.html)
 
 - First search you board [here](https://circuitpython.org/downloads) to check if your CircuitPython support your board.
+
+### Circuitpython libraries and frameworks
+
+CircuitPython libraries are written in Python. They provide additional functionality and support external devices, beyond what is in CircuitPython itself.After connect your board to your computers usb you should see a drive named _CIRCUITPY_. Libraries are stored on your CIRCUITPY drive in a folder called lib.
+
+- You can get the library packages [bundle from here](https://circuitpython.org/libraries) or [Indevidual packages from here](https://learn.adafruit.com/circuitpython-essentials/circuitpython-libraries).
+- You can also find the indevidual library from thonny package installer.
 
 ### IDE/Text Editor Installation
 
@@ -351,12 +370,6 @@ In this case every board have diffrent method to install circuitpython. follow b
 
 If your Pico ever gets into a really weird state and doesn't even show up as a disk drive when installing CircuitPython, try installing this [flash_nuke.uf2](https://cdn-learn.adafruit.com/assets/assets/000/099/419/original/flash_nuke.uf2?1613329170) which will do a 'deep clean' on your Flash Memory. You will lose all the files on the board, but at least you'll be able to revive it! After nuking, re-install CircuitPython.
 
-#### Install CircuitPython packages
-
-CircuitPython libraries are written in Python. They provide additional functionality and support external devices, beyond what is in CircuitPython itself.After connect your board to your computers usb you should see a drive named _CIRCUITPY_. Libraries are stored on your CIRCUITPY drive in a folder called lib.
-
-You can get the library packages bundle from [here](https://circuitpython.org/libraries) or find the indevidual library from thonny package installer.
-
 ## ESP-IDF
 
 Follow this official instruction for installing [ESP-IDF](https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/install.md) in VS Code.
@@ -368,6 +381,24 @@ Follow this [Youtube tutorial](https://www.youtube.com/watch?v=XDDcS7HQNlI) for 
 [Get started](https://docs.platformio.org/en/latest/tutorials/index.html) with PlatformIO.
 
 Follow This [Youtube Video](https://www.youtube.com/watch?v=JmvMvIphMnY) to learn about installation and Usage.
+
+<hr>
+
+# Board Specific docs
+
+## NodeMCU ESP8266 CH340
+
+- CH340 Driver [Installation Docs](https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all).
+
+## waveshare ESP32-S3-Pico
+
+- Boards specs and pinout - [Here](https://github.com/tirtharajsinha/IOT-and-Robotics/tree/main/boards/ESP/ESP32%20S3/Waveshare%20ESP32-S3-Pico)
+
+- Read full Docs [here](https://www.waveshare.com/wiki/ESP32-S3-Pico).
+
+- This board use a diffrent version of micropython from waveshare, Read [docs how to install](https://www.waveshare.com/wiki/ESP32-S3-Pico#MicroPython)
+
+- Install the [ch343 driver](https://www.waveshare.com/wiki/ESP32-S3-Pico#CH343).
 
 <hr>
 
