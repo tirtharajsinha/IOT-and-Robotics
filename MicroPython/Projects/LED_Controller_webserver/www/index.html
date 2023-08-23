@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Web server</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            font-family: Helvetica;
+            display: inline-block;
+            margin: 0px;
+            text-align: center;
+        }
+
+        body {
+            background-color: #3b4252;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-size: 16px;
+            font-family: "Helvetica", "Arial", sans-serif;
+            font-weight: normal;
+            color: white;
+            padding: 0px;
+        }
+
+        .container {
+            width: calc(100% - 20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nev {
+            background-color: #2e3440;
+            display: flex;
+            height: 50px;
+            align-items: center;
+            position: fixed;
+            justify-content: space-between;
+            width: calc(100vw - 20px);
+            top: 10px;
+            left: 10px;
+            border-radius: 20px;
+        }
+
+        .nav2 {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .nav2 a {
+            text-decoration: none;
+            padding: 20px 30px;
+            border-radius: 10px;
+            background: #2e3c58;
+            color: white;
+        }
+
+        .nav2 a:nth-child(1) {
+            background: #2e4f58;
+        }
+
+        .circle {
+            background-color: #8fbcbb;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            margin-right: 10px;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #333a4b;
+            text-align: left;
+            padding: 15px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2f3542;
+        }
+
+        h1 {
+            color: #eceff4;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-left: 20px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #d8dee9;
+            margin-bottom: 50px;
+            font-size: 20px;
+        }
+
+        h2 {
+            color: #8fbcbb;
+            margin: 20px 0;
+            font-size: 25px;
+            text-align: left;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nev">
+        <h1>IOT Web Server</h1>
+        <div class="circle"></div>
+    </div>
+
+    <div class="container">
+        <div class="nav2">
+            <a href="/neopixel">Neopixel Controller</a><br>
+            <a href="/led">LED Toggler</a><br>
+        </div>
+        <table>
+            <h2>Board Information</h2>
+            <tr>
+                <td>Device Name</td>
+                <td id="DEVICENAME">{DEVICENAME}</td>
+
+            </tr>
+            <tr>
+                <td>Flash Size</td>
+                <td id="FlashMB">{FlashMB}</td>
+            </tr>
+            <tr>
+                <td>Available Storage</td>
+                <td id="AvailableMB">{AvailableMB}</td>
+            </tr>
+            <tr>
+                <td>Allocated Storage</td>
+                <td id="UsedMB">{UsedMB}</td>
+
+            </tr>
+            <tr>
+                <td>Free Space</td>
+                <td id="FreeMB">{FreeMB}</td>
+
+            </tr>
+            <tr>
+                <td>Hostname</td>
+                <td id="HOSTNAME">{HOSTNAME}</td>
+            </tr>
+            <tr>
+                <td>IP Address</td>
+                <td id="IPADDRESS">{IPADDRESS}</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        fetch(`/boardInfo`)
+            .then(res => res.json())
+            .then(out => {
+                let props = Object.keys(out);
+                props.forEach((prop) => {
+                    document.getElementById(prop).innerHTML = out[prop];
+                });
+            })
+            .catch(err => { throw err });
+    </script>
+
+</body>
+
+</html>

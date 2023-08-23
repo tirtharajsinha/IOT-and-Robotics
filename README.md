@@ -214,6 +214,12 @@ As ESP based borads are also available from third-party manufactures like adafru
 
 These board has arduino IDE Support by default.
 
+- Start Arduino IDE
+- Plug your board
+- Select your board(like: Arduino Uno R3, Arduino Mega, Arduino Nano etc.)
+- Select Port (like COM3[for windows], dev/tty0[for linux/OS X] etc.)
+- Write Code > Compile code (Tick icon) > Upload Code to board (Upper arrow icon)
+
 ### ESP Boards
 
 - Start Arduino and open Preferences window.
@@ -240,9 +246,23 @@ Put these url into Additional Board Manager URLs field. You can add multiple URL
 
 #### Upload program to esp boards
 
-- for **Esp32/esp8266/C3** after initiate upload press and hold the `BOOT` button after upload done unpress boot button
+- for **Esp32/esp8266/C3**
 
-- For **Esp32 S2/S3/C6** - Before upload Go to `TOOLS` then `USB CDC on BOOT > Enable`, `update the UPLOAD MODE`. Now hit Upload.
+  - after initiate upload press and hold the `BOOT` button after upload done unpress boot button
+
+- For **Esp32 S2/S3/C6 <u>[ Boards with 1 usb port on board ]</u>**
+
+  - after initiate upload press and hold the `BOOT` button after upload done unpress boot button
+
+- For **Esp32 S2/S3/C6 <u>[ Boards with 2 usb port on board ]</u>**
+
+  - #### <u>First Way</u> - Connect board to USB to UART bridge (usb port with UART label) [Recommended WAY]
+
+    Before upload Go to `TOOLS` then `USB CDC on BOOT > Disable`, `update the UPLOAD MODE > UART`. Now hit Upload.
+
+  - #### <u>Second Way</u> - Connect board to USB (usb port with USB label)
+    Before upload Go to `TOOLS` then `USB CDC on BOOT > Enable`, `update the UPLOAD MODE > Intarnal USB`. Now hit Upload.
+    > For First time if it does not get recognised by windows(Which you can check by device manager) press and hold **_BOOT_** button and click **_RESET_** button now unpress the **_BOOT_** button. Now follow the above steps.
 
 #### Additional/Importent Arduino Libraries for esp8266/esp32
 

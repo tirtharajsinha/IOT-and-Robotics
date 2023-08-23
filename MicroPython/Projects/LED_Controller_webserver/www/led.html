@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ESP32 Server</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            font-family: Helvetica;
+            display: inline-block;
+            margin: 0px;
+            text-align: center;
+        }
+
+        body {
+            background-color: #3B4252;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .nev {
+            background-color: #2E3440;
+            display: flex;
+            height: 50px;
+            align-items: center;
+            position: fixed;
+            justify-content: space-between;
+            width: calc(100vw - 20px);
+            top: 10px;
+            left: 10px;
+            border-radius: 20px;
+
+        }
+
+        .circle {
+            background-color: #8FBCBB;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            margin-right: 10px;
+        }
+
+        h1 {
+            color: #ECEFF4;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-left: 20px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #D8DEE9;
+            margin-bottom: 50px;
+            font-size: 20px;
+        }
+
+        .button {
+            display: block;
+            width: 80px;
+            background-color: #5E81AC;
+            border: none;
+            color: #ECEFF4;
+            padding: 13px 30px;
+            text-decoration: none;
+            font-size: 25px;
+            margin: 0px auto 35px;
+            cursor: pointer;
+            border-radius: 7px;
+        }
+
+        .button-on {
+            background-color: #488fe6;
+        }
+
+        .button-on:active {
+            background-color: #488fe6;
+        }
+
+        .button-off {
+            background-color: #517295;
+        }
+
+        .button-off:active {
+            background-color: #5c748b;
+        }
+
+        p {
+            font-size: 14px;
+            color: #acb6ce;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nev">
+        <h1>LED Controller</h1>
+        <div class="circle"></div>
+    </div>
+
+    <div id="ledstate">
+        <p>LED1 Status: <span class="state">OFF</span></p><a class="button button-off">ON</a>
+    </div>
+
+
+
+    <script>
+
+        function fetchLedstate(type="toggle") {
+            fetch("/setled?LED="+type)
+                .then(res => res.json())
+                .then(out => {
+                    console.log(out);
+                    if (out["LED_STATE"]) {
+                        document.querySelector(".state").innerHTML = "ON";
+                        document.querySelector(".button").innerHTML = "OFF";
+                        document.querySelector(".button").classList.add("button-off");
+                        document.querySelector(".button").classList.remove("button-on");
+                    }
+                    else {
+                        document.querySelector(".state").innerHTML = "OFF";
+                        document.querySelector(".button").innerHTML = "ON";
+                        document.querySelector(".button").classList.add("button-on");
+                        document.querySelector(".button").classList.remove("button-off");
+                    }
+
+                })
+                .catch(err => { throw err });
+        }
+        fetchLedstate(type="state");
+        document.querySelector(".button").addEventListener("click", (e) => {
+            fetchLedstate();
+        })
+    </script>
+</body>
+
+</html>

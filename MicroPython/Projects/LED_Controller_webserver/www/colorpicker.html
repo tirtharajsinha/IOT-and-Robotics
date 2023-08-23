@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>ESP32 Server</title>
+   <title>CodePen - Color wheel picker</title>
+   <link rel="stylesheet" href="/www/style.css">
+
+</head>
+
+<body>
+   <!-- partial:index.partial.html -->
+
+   <div class="nev">
+      <h1>Neopixel Controller</h1>
+      <div class="circle"></div>
+   </div>
+   <div id="color-picker">
+      <div id="color-canvas-area">
+         <canvas id="color-canvas"></canvas>
+         <div id="color-handle"></div>
+      </div>
+      <div id="brightness-slider">
+         <div id="brightness-handle"></div>
+      </div>
+      <div id="color-info">
+         <div id="color-preview"></div>
+         <div id="color-values">
+            <label for="brightness">Brightness:</label>
+            <input type="text" id="brightness" readonly>
+            <label for="rgb">RGB:</label>
+            <input type="text" id="rgb" readonly>
+            <label for="hex">HEX:</label>
+            <input type="text" id="hex" readonly>
+         </div>
+      </div>
+   </div>
+   <!-- partial -->
+   <script src="/www/script.js"></script>
+
+</body>
+
+</html>
