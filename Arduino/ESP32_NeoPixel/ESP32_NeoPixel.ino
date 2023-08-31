@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #define LED_COUNT 1
-#define LED_PIN 18
+#define LED_PIN 21
 
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -28,7 +28,7 @@ void rainbow(int wait) {
     strip.show();
     delay(wait);
     if(millis()-noti>5000){
-      Serial.println("ESP32 S2 devkitC-1 neopixel rainbow with arduino framework");
+      Serial.println("neopixel rainbow with arduino framework");
       noti=millis();
     }
     

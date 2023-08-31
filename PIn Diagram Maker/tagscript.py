@@ -1,0 +1,269 @@
+#!/usr/bin/python
+# http://www.astro.ufl.edu/~warner/prog/python.html  - Python Basics if you want to learn some Python
+# https://pypi.python.org/pypi/svgwrite/  - Library this script uses
+# install Python27, download svgwrite, from svgwrite folder run "C:\Python27\python setup.py install"
+
+# This script starts by asking for a file, this name is saved as 'myfile'
+# Input file is a 'myfile'.csv and is referred to as file
+# Be careful what characters you use.  This is a comma deliminated file, so using a comma in your text will cause problems.
+# Also, some applications will change characters to non-standard characters you will get an error (" - " is often to a larger dash that is non standard)
+# Output file is a 'myfile'.svg and is defined before the while loop
+# The script is setup for 13 fields, to add more change the global fields variable and add another section to the writeField function with the colors you want.
+# If the following words are in field 1 of a line it will change the structure of the output blocks to fit that heading "Left, Right, Top, Text, Extras"
+# Text will not make a box, but make a new row of text for each field, each line will be a different section of text, this section must be after blocks
+# Extras will look for a file in the folder /Images called value.png and add it to the svg, useful for things like ISP headers graphic, etc. (I'm not actually using this)
+# File is read until field 1 is "EOF"
+
+import os
+import svgwrite
+import time
+
+################################################## GLOBAL VARIABLES ########################################
+
+row = 0  # row starts at the top
+height = 16  # height of a box
+width = 80  # width of a box
+rowheight = 19  # height of a row (leaving enough space between rows to move)
+rowwidth = 83  # width of a 'spot', basically width plus a few
+fields = 13  # number of fields
+documentWidth = rowwidth * fields + 50  # maximum width the document should be
+documentHeight = 2250  # this is  guess since we need to make the document before we know the file size, doesn't really matter anyway
+direction = (
+    "r"  # which direction the tag is facing, staring out with labels on the right
+)
+offset = 0  # this is where we start, for the left we will start on the right side of the page
+previoustext = 0  # for text function, defines how much text we have already written so we know where to start
+textheight = 17  # how much we add each time we add a line of text
+textstart = (
+    100  # where a block of text will start (y axis), this will be set in the code
+)
+myfile = "ProMini"  # file read in to be parsed
+fontsize = 12
+imagewidth = 250
+imageheight = 250
+indent = 5  # move text to the right
+adjust = -4  # move text down (negative for up)
+
+shapes = ["sqauare", "rounded"]
+
+# "Theme"
+#            Name     Power    GND      Control   Arduino  Port     Analog
+#        PWM       Serial  ExtInt    PCInt     Misc    Misc2
+tcolor = [
+    "white",
+    "green",
+    "green",
+    "green",
+    "gray",
+    "blue",
+    "purple",
+    "yellow",
+    "orange",
+    "orange",
+    "orange",
+    "purple",
+    "red",
+    "black",
+    "green",
+    "orange",
+    "blue",
+    "blue",
+]
+topacity = [
+    0.3,
+    0.3,
+    0.6,
+    0.9,
+    0.9,
+    0.7,
+    0.3,
+    1,
+    1,
+    0.6,
+    0.3,
+    1,
+    1,
+    1,
+    0.1,
+]
+
+towidth = [25, 55, 35, 35, 40, 50, 85, 65, 50, 35, 50, 35, 50, 35, 70]
+toshape = [0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1]
+togap = [1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+################################################# FUNCTIONS ###################################################
+
+
+# Writes plain text from the text section
+def writeText(i, value, row):
+    text = dwg.add(
+        dwg.text(
+            str(value),
+            insert=(0, textstart),
+            font_size=12,
+            font_family="Montserrat",
+            fill="black",
+        )
+    )
+    # print ("Printing " + str(value) + " at " + str(textstart))
+    global previoustext
+    previoustext = previoustext + textheight
+    # end writeText
+
+
+# Creates colored blocks and text for fields
+def writeField(type, value, row, spot, linecount=[], gap=[]):
+    global gapcount
+    if type != 0 and togap[type - 1] == 1 and gapcount[-1] == 0:
+        gapcount[-1] = 10
+        gap[-1] = 10
+    x = sum(linecount) + offset + sum(gap)
+    if direction == "l":
+        x = offset - (sum(linecount) + towidth[type] + sum(gap))
+    y = row * rowheight
+
+    color = tcolor[type]  # fill color of box
+    crect = color  # color for rectangle around box
+    ctext = "black"  # default text color: black
+
+    if color == "white":  # white boxes get black outlines
+        crect = "black"
+
+    if color == "black":  # don't write black-on-black
+        ctext = "white"
+    if (color == "purple" or color == "green") and topacity[
+        type
+    ] > 0.5:  # don't write black-on-black
+        ctext = "white"
+
+    if (
+        color == "red" or color == "gray" or color == "blue"
+    ):  # don't write black-on-black
+        ctext = "white"
+
+    border_radius = 1
+    if toshape[type] == 1:
+        border_radius = 5
+
+    # Box
+    dwg.add(
+        dwg.rect(
+            (x, y),
+            (towidth[type], height),
+            border_radius,
+            border_radius,
+            stroke=crect,
+            opacity=topacity[type],
+            fill=color,
+        )
+    )
+    # if direction == "l":
+    #     print(offset, x, spot, value)
+
+    # Text
+    dwg.add(
+        dwg.text(
+            str(value),
+            insert=(x + indent, y + height + adjust),
+            font_size=fontsize,
+            font_family="Montserrat",
+            fill=ctext,
+        )
+    )
+
+
+# adds images to end of document, currently not used as pngs don't work as well as I'd like and it is easier to just drag and drop the files I want into the final file.
+def writeImages(i, value, row):
+    global previoustext
+    currentimage = "Images/" + value + ".png"
+    if os.access(currentimage, os.R_OK):
+        print("Adding " + currentimage)
+        image = dwg.add(
+            dwg.image(href=("../" + currentimage), insert=(i * imagewidth, textstart))
+        )
+    else:
+        print("Could not find " + currentimage)
+
+
+# end writeImages
+
+
+# open file with read access
+print("Make sure the python script is in the same folder as the file.")
+myfile = input("Enter file name without the .csv extension (eg. ESP8266/Thing): ")
+if myfile == "":
+    myfile = "ESP32-S3-Pico"
+if os.access(myfile + ".csv", os.R_OK):
+    file = open(myfile + ".csv", "r")
+    print("File opened")
+else:
+    print(
+        "File not found, please try again, there should be a comma deliminated csv file with the data in it.  See script for more details"
+    )
+    time.sleep(1)
+    os._exit(0)
+
+# read in each line parse, and send each field to writeField
+rawline = "not empty"
+dwg = svgwrite.Drawing(
+    filename=str(myfile + ".svg"), profile="tiny", size=(documentWidth, documentHeight)
+)
+while rawline != "":
+    rawline = file.readline()
+    line = rawline.split(",")  # Split into fields separated by ","
+    row = row + 1
+    spot = 0
+    if line[0] == "Left":
+        direction = "l"
+        offset = documentWidth - rowwidth
+        line[0] = ""
+    if line[0] == "Right":
+        direction = "r"
+        offset = 0
+        line[0] = ""
+    if line[0] == "Top":
+        direction = "r"
+        offset = 0
+        line[0] = ""
+    if line[0] == "Text":
+        offset = 0
+        line[0] = ""
+        direction = "text"
+    if line[0] == "Extras":
+        offset = 0
+        line[0] = ""
+        direction = "extras"
+    if line[0] == "EOF":  # if we are done
+        dwg.save()
+        break
+    # print(line)
+    linecount = []
+    gapcount = []
+    for i in range(0, len(line) - 1):  # go through total number of fields
+        if line[i] != "" and direction == "r":
+            writeField(
+                i, line[i], row, spot, linecount, gapcount
+            )  # call function to add that field to the svg file
+            spot = spot + 1  # move 'cursor' one spot to the right
+
+        if line[i] != "" and direction == "l":
+            writeField(
+                i, line[i], row, spot, linecount, gapcount
+            )  # call function to add that field to the svg file
+            spot = spot - 1  # move 'cursor' one spot to the left
+
+        if line[i] != "" and direction == "text":
+            textstart = row * rowheight + previoustext
+            writeText(i, line[i], row)
+
+        if line[i] != "" and direction == "extras":
+            writeImages(i, line[i], row)
+        if line[i] != "":
+            linecount.append(towidth[i])
+            gapcount.append(togap[i] * 10)
+# end of while
+
+
+print("End of File, the output is located at " + myfile + ".svg")
+dwg.save()
+file.close()

@@ -1,0 +1,2 @@
+on importing neopixel(copied to /lib) throwing error
+-- ValueError: incompatible .mpy file

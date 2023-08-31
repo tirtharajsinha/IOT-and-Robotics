@@ -1,22 +1,21 @@
-#---------------------------------------------------------------
-# | File        :   rgb.py                               
-# | Author      :   Waveshare team                              
+# ---------------------------------------------------------------
+# | File        :   rgb.py
+# | Author      :   Waveshare team
 # | Function    :   rgb fade
-# | Info        :   rgb led(ws2812b) test code                          
-#---------------------------------------------------------------
-# | This version:   V1.0                                        
-# | Date        :   2022-03-15                                  
-# | Info        :   Basic version                               
-#---------------------------------------------------------------
+# | Info        :   rgb led(ws2812b) test code
+# ---------------------------------------------------------------
+# | This version:   V1.0
+# | Date        :   2022-03-15
+# | Info        :   Basic version
+# ---------------------------------------------------------------
 import time
-import pico_gpio
 from machine import Pin
 from neopixel import NeoPixel
 
 max_lum = 100
 
 # Set the pin number for the RGB LED
-rgb_led_num = pico_gpio.RGB_PIN
+rgb_led_num = 21
 
 # Create a Pin object for the RGB LED pin
 rgb_led_pin = Pin(rgb_led_num, Pin.OUT)
