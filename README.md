@@ -2,25 +2,51 @@
 
 <img src="banner.jpg" alt="">
 
-## Microcontroller IOT Boards
+## Popular Types of Microcontroller Series and examples
 
-- [Arduino boards](https://en.wikipedia.org/wiki/List_of_Arduino_boards_and_compatible_systems) (UNO,MEGA,NANO,LEONARDO etc)
-- ESP8266/ESP32/ESP S/C/H DevKit
-- Raspberry Pi Pico /W
+| Name                    | Example                                 |
+| ----------------------- | --------------------------------------- |
+| AVRSeries               | Atmega328p, Atmega 2560                 |
+| RENESAS Microcontroller | RA4M1                                   |
+| Espressif Chips         | ESP8266, ESP-wroom-32, ESP32S3          |
+| RP2040                  | RPi Pico W                              |
+| STM Microcontroller     | STM32F4011CCU, STM8S103F3,STM32F103C8T6 |
+| INTEL Microcontroller   | Intel 8051                              |
+| NXP                     | NXP iMXRT1062                           |
+| NRf                     | nRF52832                                |
+| PIC Family              | PIC16F877A                              |
+
+## Popular Development Boards and SBC
+
+| Name                      | SOC name                | Tested |
+| ------------------------- | ----------------------- | ------ |
+| Arduino UNO R3            | Atmega328p              | Yes    |
+| Arduino UNO R4 Minima     | RA4M1                   | No     |
+| Arduino UNO R4 Wifi       | RA4M1+ESP32S3           | No     |
+| Arduino Nano Every        | Atmega328p(SMD version) | Yes    |
+| Arduino Mega 2650         | Atmega2560              | No     |
+| Nodemcu ESP8266 Devkit V3 | ESP8266-12              | Yes    |
+| DoIt esp32 devkit-V1      | ESP-Wroom-32            | Yes    |
+| ESP32 C3 DevkitC-1        | ESP32-C3-N4R2           | No     |
+| ESP32 S2 DevkitC-1        | ESP32-S2-Solo-N4        | Yes    |
+| ESP32 S3 DevkitC-1        | ESP32-S3-N8R8           | Yes    |
+| ESP32-S3-Pico             | ESP32-S3-R2             | Yes    |
+| ESP32 C6 DevkitC-1        | ESP32-S6-N8R8           | No     |
+| Raspberry Pi Pico         | RP2040                  | Yes    |
+| Raspberry Pi 4B           | Broadcom BCM2711        | Yes    |
+| Blackpil STM32            | STM32F401CCU6           | No     |
 
 ### Minimal Component Requirements
 
-- One of the above board(Recommended : Arduino UNO)
+- One of the above board(Atleast : Arduino UNO R3)
 - _USB type A_ to _USB type B_ Connector Vable
 - _USB type A_ to _Micro USB_ Connector Cable
-- led(Red,green,blue)
+- led(Red,green,blue,RGB)
 - jumpers(MtoM and MtoF)
 - breadboard
 - Register(220ohm,1Kohm,10Kohm)
 - capacitor(220 microfarad,47 microfarad)
-- Buzzer
-- 8mm common anode RGB led
-- Potentiometer
+- Some sensors(DHT11, HC-SR04)
 
 ### Sensors and Modules(Required : based on project)
 
@@ -40,11 +66,15 @@
 - HC-05 Bluetooth Module
 - Ublox Neo-6M GPS Receiver Module
 
-#### Displays
+#### Displays and LED MOdule
 
-- 16x2 LCD
+- 16x2 LCD Display
 - Single digit _7 segment_ display
 - 0.96inch OLED I2C display
+- Color LCD SPI Display
+- WS2812 RGB LED MATRIX/RING
+- MAX7219 LED Dot Matrix Display
+- I2C 8x16 RGB LED Matrix Panel
 
 #### Motors
 
@@ -54,6 +84,7 @@
 
 #### Motor Drivers and Shields
 
+- L293D IC
 - L293D Motor Driver Shield(Arduino UNO/Mega)
 - L293D Motor Driver Board for ESP8266 NodeMcu 12E
 - L298N motor driver module
@@ -162,7 +193,7 @@ git reset --hard origin/main
 
 ## ESP based boards
 
-As ESP based borads are also available from third-party manufactures like adafruit,unexpectedmaker,wemos etc. so listing all boards impossible. This [Page](https://www.espressif.com/en/products/modules) lists all esp official espressif products.
+As ESP based borads are also available from third-party manufactures like adafruit,unexpectedmaker,wemos,waveshare etc. so listing all boards is almost impossible. This [Page](https://www.espressif.com/en/products/modules) lists all esp official espressif products.
 
 #### Here we are only listing the popular ESP32 SOC series.
 
