@@ -1,7 +1,5 @@
-
-
 #include<Servo.h>
-int Servopin=3;
+int Servopin=5;
 Servo Servo1;
 void setup() {
   // put your setup code here, to run once:
@@ -17,6 +15,8 @@ void loop() {
   delay(1000);
   Servo1.write(180);
   delay(1000);
-  
 
 }
+  
+
+
