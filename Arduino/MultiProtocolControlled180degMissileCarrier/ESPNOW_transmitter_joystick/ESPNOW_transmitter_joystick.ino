@@ -3,7 +3,8 @@
 
 // REPLACE WITH YOUR RECEIVER MAC Address
 
-uint8_t broadcastAddress[] = { 0x68, 0x67, 0x25, 0x33, 0x2D, 0xE2 };
+uint8_t broadcastAddress[] = { 0x34, 0x85, 0x18, 0xB8, 0x3B, 0x80 };
+uint8_t broadcastAddress1[] = { 0x68, 0x67, 0x25, 0x33, 0x2D, 0xE2 };
 
 int LED = LED_BUILTIN;
 
@@ -25,18 +26,20 @@ esp_now_peer_info_t peerInfo;
 
 
 // joystick conf
-#define joyX 36
-#define joyY 39
+#define joyX 34
+#define joyY 35
+#define joybtn 25
 
 double xValue = 0;
 double yValue = 0;
 
-int threshhold_latency = 150;
-int threshhold_fix = 500;
+int threshhold_latency = 750;
+int threshhold_fix = 2000;
 
 long long commandTimeoutX = 0;
 long long commandTimeoutY = 0;
 int commandTimeout = 100;
+
 
 // callback when data is sent
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
@@ -44,7 +47,8 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
   if(status == ESP_NOW_SEND_SUCCESS){
     digitalWrite(LED, HIGH);
-    delay(1000);
+  }
+  else{
     digitalWrite(LED, LOW);
   }
 }
@@ -88,15 +92,16 @@ void loop() {
 
 void datasender(int command){
   // Set values to send
+
+  Serial.println(command);
+
   strcpy(myData.secret_key, secretKey);
-  myData.command = random(1, 4);
+  myData.command = command;
   
 
   // Send message via ESP-NOW
 
   esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)&myData, sizeof(myData));
-
-  delay(2000);
 }
 
 
@@ -108,11 +113,14 @@ void checkJoystick() {
 
   // Serial.println("JOYSTICK ENABLED");
   if (abs(xValue - threshhold_fix) > threshhold_latency || abs(yValue - threshhold_fix) > threshhold_latency) {
-
+    // Serial.print(xValue);
+    // Serial.print("\t");
+    // Serial.println(yValue);
     if ((millis() - commandTimeoutX) > commandTimeout) {
       commandTimeoutX = millis();
       if ((xValue - threshhold_fix) > threshhold_latency) {
         datasender(1);
+        
       }
       if ((xValue - threshhold_fix) < (-1 * threshhold_latency)) {
         datasender(2);

@@ -5,8 +5,8 @@
 
 
 // Servo Conf
-int ServoPinX = 5;
-int ServoPinY = 3;
+int ServoPinX = 41;
+int ServoPinY = 42;
 
 Servo ServoX;
 Servo ServoY;
@@ -31,7 +31,7 @@ int neopixelPin = 21;
 
 const char secretKey[32] = "jfjvjv6#Gb535kb*&jvi";
 
-Adafruit_NeoPixel strip(1, neopixelPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip(1, neopixelPin, NEO_RGB + NEO_KHZ800);
 
 // Structure example to receive data
 // Must match the sender structure
@@ -44,7 +44,7 @@ typedef struct struct_message {
 struct_message myData;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
 
   // put your setup code here, to run once:
@@ -80,7 +80,11 @@ void setup() {
   // get recv packer info
   esp_now_register_recv_cb(OnDataRecv);
 
-
+  strip.begin();
+  strip.setBrightness(50);
+  
+  strip.setPixelColor(0, strip.Color(255, 0, 0));
+  strip.show();
   // Serial.println("Joystick DISABLED");
 }
 
@@ -151,11 +155,13 @@ void CheckPermission() {
       btntime = millis();
       ENABLE = !ENABLE;
       if (ENABLE) {
-        // Serial.println("Joystick ENABLED");
-        digitalWrite(led, HIGH);
+        Serial.println("Joystick ENABLED");
+        strip.setPixelColor(0, strip.Color(0, 255, 0));
+        strip.show();
       } else {
-        // Serial.println("Joystick DISABLED");
-        digitalWrite(led, LOW);
+        Serial.println("Joystick DISABLED");
+        strip.setPixelColor(0, strip.Color(255, 0, 0));
+        strip.show();
       }
     }
   }
@@ -163,16 +169,35 @@ void CheckPermission() {
 
 // exp-now receiver
 
+
+
+void printMAC(const uint8_t * mac_addr){
+  char macStr[18];
+  snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
+           mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
+  Serial.print(macStr);
+}
+
+
 // callback function that will be executed when data is received
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
-  Serial.println("Received data through ESP-NOW from" + String((char *)mac));
+  Serial.print("Received data through ESP-NOW from ");
+  printMAC(mac);
+  Serial.println("");
   if (ENABLE) {
     memcpy(&myData, incomingData, sizeof(myData));
 
-    if(myData.secret_key!=secretKey){
-      Serial.println("Security check FAILED : Wrong key received.")
+    if(String(myData.secret_key)!=String(secretKey)){
+      Serial.println(secretKey);
+      Serial.println(myData.secret_key);
+
+      Serial.println("Security check FAILED : Wrong key received.");
       return;
     }
+
+    Serial.println(myData.command);
+    
+
     switch (myData.command) {
       case 1:
         LEFT();
