@@ -395,8 +395,35 @@ Read installation docs [Docs from adafruit](https://cdn-learn.adafruit.com/downl
 
 CircuitPython libraries are written in Python. They provide additional functionality and support external devices, beyond what is in CircuitPython itself.After connect your board to your computers usb you should see a drive named _CIRCUITPY_. Libraries are stored on your CIRCUITPY drive in a folder called lib.
 
-- You can get the library packages [bundle from here](https://circuitpython.org/libraries) or [Indevidual packages from here](https://learn.adafruit.com/circuitpython-essentials/circuitpython-libraries).
-- You can also find the indevidual library from thonny package installer.
+#### Automatic Installation using CircUp
+
+1. Install python 3.5 or later in your laptop or desktop.
+2. Open Terminal and create a virtiual environment with
+
+```
+pip install virtualenv
+virtualenv venv
+./venv/Scripts/activate
+```
+
+3. Open Terminal and run
+
+```
+pip install circup
+```
+
+4. Connect your board.
+5. run `circup --help` to know all the command.
+6. To know more visit [Official Docs](https://github.com/adafruit/circup).
+
+#### Manual Installation
+
+1. You can get the circuitpython essential bundle and The Community Bundle [from here.](https://circuitpython.org/libraries)
+2. Extract the bundle.
+3. Go to `/lib` and copy the required packages(ie. neopixel.mpy)
+4. Connect the circuitpython device with your computer. You should see a new drive named `CIRCUITPY`.
+5. Paste the copied packages inside `/lib` directory of `CIRCUITPY` drive.
+6. You can also get [Indevidual packages from here](https://learn.adafruit.com/circuitpython-essentials/circuitpython-libraries)
 
 ### IDE/Text Editor Installation
 
