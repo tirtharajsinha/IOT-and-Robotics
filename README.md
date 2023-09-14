@@ -4,17 +4,17 @@
 
 ## Popular Types of Microcontroller Series and examples
 
-| Name                    | Example                                 |
-| ----------------------- | --------------------------------------- |
-| AVRSeries               | Atmega328p, Atmega 2560                 |
-| RENESAS Microcontroller | RA4M1                                   |
-| Espressif Chips         | ESP8266, ESP-wroom-32, ESP32S3          |
-| RP2040                  | RPi Pico W                              |
-| STM Microcontroller     | STM32F4011CCU, STM8S103F3,STM32F103C8T6 |
-| INTEL Microcontroller   | Intel 8051                              |
-| NXP                     | NXP iMXRT1062                           |
-| NRf                     | nRF52832                                |
-| PIC Family              | PIC16F877A                              |
+| Name                    | Example                        |
+| ----------------------- | ------------------------------ |
+| AVRSeries               | Atmega328p, Atmega 2560        |
+| RENESAS Microcontroller | RA4M1                          |
+| Espressif Chips         | ESP8266, ESP-wroom-32, ESP32S3 |
+| RP2040                  | RPi Pico W                     |
+| STM Microcontroller     | STM32F4011CCU, STM8S103F3      |
+| INTEL Microcontroller   | Intel 8051                     |
+| NXP                     | NXP iMXRT1062                  |
+| NRf                     | nRF52832                       |
+| PIC Family              | PIC16F877A                     |
 
 ## Popular Development Boards and SBC
 
@@ -25,7 +25,7 @@
 | Arduino UNO R4 Wifi       | RA4M1+ESP32S3           | No     |
 | Arduino Nano Every        | Atmega328p(SMD version) | Yes    |
 | Arduino Mega 2650         | Atmega2560              | No     |
-| Nodemcu ESP8266 Devkit V3 | ESP8266-12              | Yes    |
+| Nodemcu ESP8266 Devkit V3 | ESP8266EX               | Yes    |
 | DoIt esp32 devkit-V1      | ESP-Wroom-32            | Yes    |
 | ESP32 C3 DevkitC-1        | ESP32-C3-N4R2           | No     |
 | ESP32 S2 DevkitC-1        | ESP32-S2-Solo-N4        | Yes    |
@@ -389,7 +389,27 @@ Read installation docs [Docs from adafruit](https://cdn-learn.adafruit.com/downl
 
 - Find the [CircuitPython Docs](https://docs.circuitpython.org/en/latest/README.html)
 
-- First search you board [here](https://circuitpython.org/downloads) to check if your CircuitPython support your board.
+- First search you board [here](https://circuitpython.org/downloads) to check if your board is supported by CircuitPython.
+
+- [Note] : if your board not supported you can build your board by yourself. [Find docs here](https://learn.adafruit.com/building-circuitpython/build-circuitpython).
+
+### Firmware Installation
+
+In this case every board have diffrent method to install circuitpython. follow boards specific method in adafruit site.
+
+- Download the circuitpython _BOOTLOADER ZIP_ and .uf2 file [here.](https://circuitpython.org/downloads)
+
+- `[Recommended Method]` follow the Install, Repair, or Update UF2 Bootloader instruction in Adafruit site.
+
+- `[Other Method/esp boards]` Download the firmware(.zip) file > unzip it > flash `combine.zip` with the help of esptool.
+
+- ESP32 S/C/H : For reference Follow this [Youtube Video](https://www.youtube.com/watch?v=RYkwgs5rXBM).
+
+- Raspberry Pi Pico with [CircuitPython](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython/circuitpython)
+
+#### Flash Resetting UF2
+
+If your Pico ever gets into a really weird state and doesn't even show up as a disk drive when installing CircuitPython, try installing this [flash_nuke.uf2](https://cdn-learn.adafruit.com/assets/assets/000/099/419/original/flash_nuke.uf2?1613329170) which will do a 'deep clean' on your Flash Memory. You will lose all the files on the board, but at least you'll be able to revive it! After nuking, re-install CircuitPython.
 
 ### Circuitpython libraries and frameworks
 
@@ -416,6 +436,12 @@ pip install circup
 5. run `circup --help` to know all the command.
 6. To know more visit [Official Docs](https://github.com/adafruit/circup).
 
+7. Save installed package in `requirements.txt`
+
+```
+circup freeze -r
+```
+
 #### Manual Installation
 
 1. You can get the circuitpython essential bundle and The Community Bundle [from here.](https://circuitpython.org/libraries)
@@ -429,24 +455,6 @@ pip install circup
 
 - Now you need a IDE. I prefer **_thonny_** for this as it has REPL terminal For Installation guide follow this [blog form Adafruit](https://learn.adafruit.com/circuitpython-libraries-on-micropython-using-the-raspberry-pi-pico/thonny-setup).
 - For just minor editing you can use **_VS Code_**.
-
-### Firmware Installation
-
-In this case every board have diffrent method to install circuitpython. follow boards specific method in adafruit site.
-
-- Download the circuitpython _BOOTLOADER ZIP_ and .uf2 file [here.](https://circuitpython.org/downloads)
-
-- `[Recommended Method]` follow the Install, Repair, or Update UF2 Bootloader instruction in Adafruit site.
-
-- `[Other Method]` Connect board to computer via USB > Open thonny > tools > options > interpreter > select CircuitPython > install or update CircuitPython.
-
-- ESP32 S/C/H : For reference Follow this [Youtube Video](https://www.youtube.com/watch?v=RYkwgs5rXBM).
-
-- Raspberry Pi Pico with [CircuitPython](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython/circuitpython)
-
-#### Flash Resetting UF2
-
-If your Pico ever gets into a really weird state and doesn't even show up as a disk drive when installing CircuitPython, try installing this [flash_nuke.uf2](https://cdn-learn.adafruit.com/assets/assets/000/099/419/original/flash_nuke.uf2?1613329170) which will do a 'deep clean' on your Flash Memory. You will lose all the files on the board, but at least you'll be able to revive it! After nuking, re-install CircuitPython.
 
 ## ESP-IDF
 

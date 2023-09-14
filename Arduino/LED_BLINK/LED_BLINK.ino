@@ -2,7 +2,7 @@
 
 
 // int LED=13; 
-int LED=1;
+int LED=2;
 
 void setup() {
   // initialize digital pin LED_BUILTIN or pin 13 as an output.

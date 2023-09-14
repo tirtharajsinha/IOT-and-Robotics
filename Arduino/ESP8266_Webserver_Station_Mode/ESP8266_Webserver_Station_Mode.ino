@@ -1,11 +1,13 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
 
 /*Put WiFi SSID & Password*/
 const char* ssid = "SINHA_NCBN";    // Enter SSID here
 const char* password = "19061969";  // Enter Password here
+const String newHostname = "nodemcu";
 
-int LED = LED_BUILTIN;
+int LED = 4;
 
 ESP8266WebServer server(80);
 
@@ -19,6 +21,9 @@ void setup() {
   Serial.println("Connecting to ");
   Serial.println(ssid);
 
+
+  WiFi.hostname(newHostname.c_str());
+
   //connect to your local wi-fi network
   WiFi.begin(ssid, password);
 
@@ -27,7 +32,16 @@ void setup() {
     delay(1000);
     Serial.print(".");
   }
+
   Serial.println("");
+
+  if (MDNS.begin(newHostname)) {  //Start mDNS with name esp8266
+    Serial.println("MDNS started");
+  }
+
+
+
+  
   Serial.println("WiFi connected..!");
   Serial.print("Got IP: ");
   Serial.println(WiFi.localIP());
