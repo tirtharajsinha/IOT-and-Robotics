@@ -27,6 +27,7 @@
 | Arduino Mega 2650         | Atmega2560              | No     |
 | Nodemcu ESP8266 Devkit V3 | ESP8266EX               | Yes    |
 | DoIt esp32 devkit-V1      | ESP-Wroom-32            | Yes    |
+| ESP32-CAM                 | ESP-Wroom-32            | No     |
 | ESP32 C3 DevkitC-1        | ESP32-C3-N4R2           | No     |
 | ESP32 S2 DevkitC-1        | ESP32-S2-Solo-N4        | Yes    |
 | ESP32 S3 DevkitC-1        | ESP32-S3-N8R8           | Yes    |
@@ -48,9 +49,9 @@
 - capacitor(220 microfarad,47 microfarad)
 - Some sensors(DHT11, HC-SR04)
 
-### Sensors and Modules(Required : based on project)
+### Components (Required : based on project)
 
-#### Sensors
+#### Sensors and Modules
 
 - HC-SR04 Ultrasonic distance sensor\*
 - DHT11 temparature and humidity sensor\*
@@ -59,6 +60,16 @@
 - _TTP223B_ Capacitive Touch Sensor Module
 - LM393 Sound Detection Module
 - IR receiver + Remote
+- DS3231 RTC Module
+- MS5611 Barometer, Temperature & Altimeter Sensor
+- BME280 Barometer, Temperature & Altimeter Sensor
+-
+
+#### Camara Module
+
+- ov2640 camera module.
+- ov7670 camera module.
+- Arducam ov7670 SPI camara module.
 
 #### Wireless/Communication Modules
 
@@ -485,6 +496,13 @@ Follow This [Youtube Video](https://www.youtube.com/watch?v=JmvMvIphMnY) to lear
 - This board use a diffrent version of micropython from waveshare, Read [docs how to install](https://www.waveshare.com/wiki/ESP32-S3-Pico#MicroPython)
 
 - Install the [ch343 driver](https://www.waveshare.com/wiki/ESP32-S3-Pico#CH343).
+
+## Misc. Docs
+
+| Topic                        | Description                                      |
+| ---------------------------- | ------------------------------------------------ |
+| I2C Device address list      | https://i2cdevices.org/addresses                 |
+| Linux Hardware Driver Finder | https://linux-hardware.org/index.php?view=search |
 
 <hr>
 
