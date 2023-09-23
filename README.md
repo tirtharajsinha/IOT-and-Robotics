@@ -62,8 +62,9 @@
 - IR receiver + Remote
 - DS3231 RTC Module
 - MS5611 Barometer, Temperature & Altimeter Sensor
-- BME280 Barometer, Temperature & Altimeter Sensor
--
+- BME280-3.3V(I2C & SPI) Barometer, Temperature, Humidity & Altimeter Sensor
+- BME280-5V(I2C) Barometer, Temperature, Humidity & Altimeter Sensor (Recommended)
+- BME680 Barometer, Temperature, Humidity, Altimeter & Gas Sensor
 
 #### Camara Module
 
