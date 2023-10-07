@@ -27,7 +27,7 @@
 | Arduino Mega 2650         | Atmega2560              | No     |
 | Nodemcu ESP8266 Devkit V3 | ESP8266EX               | Yes    |
 | DoIt esp32 devkit-V1      | ESP-Wroom-32            | Yes    |
-| ESP32-CAM                 | ESP-Wroom-32            | No     |
+| ESP32-CAM                 | ESP-Wroom-32            | Yes    |
 | ESP32 C3 DevkitC-1        | ESP32-C3-N4R2           | No     |
 | ESP32 S2 DevkitC-1        | ESP32-S2-Solo-N4        | Yes    |
 | ESP32 S3 DevkitC-1        | ESP32-S3-N8R8           | Yes    |
@@ -35,6 +35,7 @@
 | ESP32 C6 DevkitC-1        | ESP32-S6-N8R8           | No     |
 | Raspberry Pi Pico         | RP2040                  | Yes    |
 | Raspberry Pi 4B           | Broadcom BCM2711        | Yes    |
+| Raspberry Pi 5            | Broadcom BCM2712        | Yes    |
 | Blackpil STM32            | STM32F401CCU6           | No     |
 
 ### Minimal Component Requirements
@@ -482,21 +483,26 @@ Follow This [Youtube Video](https://www.youtube.com/watch?v=JmvMvIphMnY) to lear
 
 <hr>
 
-# Board Specific docs
+## Specific Drivers
 
-## NodeMCU ESP8266 CH340
+### CH340 Driver
 
-- CH340 Driver [Installation Docs](https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all).
+> These are installation guide, there you can find the driver downloader link.
 
-## waveshare ESP32-S3-Pico
+- Windows [Driver](https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all)
+- Linux [Driver](https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all)
+- MAC [Driver](https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all)
 
-- Boards specs and pinout - [Here](https://github.com/tirtharajsinha/IOT-and-Robotics/tree/main/boards/ESP/ESP32%20S3/Waveshare%20ESP32-S3-Pico)
+### CH343 Driver
 
-- Read full Docs [here](https://www.waveshare.com/wiki/ESP32-S3-Pico).
+- Window VCP [driver](https://files.waveshare.com/upload/f/f1/CH343SER.7z)
+- Linux [Driver](https://github.com/WCHSoftGroup/ch343ser_linux)
+- Android [APP](https://files.waveshare.com/upload/2/22/WCHUARTDemo_V1.3.7z)
+- MAC [driver](https://files.waveshare.com/upload/0/04/CH34XSER_MAC.7z)
 
-- This board use a diffrent version of micropython from waveshare, Read [docs how to install](https://www.waveshare.com/wiki/ESP32-S3-Pico#MicroPython)
+### FTDI VCP Drivers
 
-- Install the [ch343 driver](https://www.waveshare.com/wiki/ESP32-S3-Pico#CH343).
+- Windows/Linux/Mac [Drivers](https://ftdichip.com/drivers/vcp-drivers/)
 
 ## Misc. Docs
 
