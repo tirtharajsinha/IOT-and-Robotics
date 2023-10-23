@@ -1,8 +1,9 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
+
 // Choose two Arduino pins to use for software serial
-int RXPin = 2;
-int TXPin = 3;
+int RXPin = 4;
+int TXPin = 5;
 int now=0;
 int GPSBaud = 9600;
 
@@ -21,6 +22,8 @@ void setup()
 
   // Start the software serial port at the GPS's default baud
   gpsSerial.begin(GPSBaud);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
   
 }
 
@@ -29,7 +32,10 @@ void loop()
   // This sketch displays information every time a new sentence is correctly encoded.
   while (gpsSerial.available() > 0)
     if (gps.encode(gpsSerial.read()))
+    digitalWrite(LED_BUILTIN, HIGH);
       displayInfo();
+      delay(100);
+      digitalWrite(LED_BUILTIN, LOW);
 
   // If 5000 milliseconds pass and there are no characters coming in
   // over the software serial port, show a "No GPS detected" error
@@ -37,8 +43,7 @@ void loop()
   {
     Serial.println("No GPS detected");
     now=millis();
-    delay(1);
-    
+    digitalWrite(LED_BUILTIN, HIGH);
   }
 }
 
