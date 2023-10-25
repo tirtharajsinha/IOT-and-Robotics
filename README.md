@@ -4,39 +4,43 @@
 
 ## Popular Types of Microcontroller Series and examples
 
-| Name                    | Example                        |
-| ----------------------- | ------------------------------ |
-| AVRSeries               | Atmega328p, Atmega 2560        |
-| RENESAS Microcontroller | RA4M1                          |
-| Espressif Chips         | ESP8266, ESP-wroom-32, ESP32S3 |
-| RP2040                  | RPi Pico W                     |
-| STM Microcontroller     | STM32F4011CCU, STM8S103F3      |
-| INTEL Microcontroller   | Intel 8051                     |
-| NXP                     | NXP iMXRT1062                  |
-| NRf                     | nRF52832                       |
-| PIC Family              | PIC16F877A                     |
+| Name                    | Example                          |
+| ----------------------- | -------------------------------- |
+| AVRSeries               | Atmega328p, Atmega2560           |
+| RENESAS Microcontroller | RA4M1                            |
+| Espressif Chips         | ESP8266, ESP32, ESP32S3, ESP32C6 |
+| RP2040                  | RPi Pico                         |
+| STM Microcontroller     | STM32F4011CCU, STM8S103F3        |
+| INTEL Microcontroller   | Intel 8051                       |
+| NXP                     | NXP iMXRT1062                    |
+| NRf                     | nRF52832                         |
+| PIC Family              | PIC16F877A                       |
 
 ## Popular Development Boards and SBC
 
-| Name                      | SOC name                | Tested |
-| ------------------------- | ----------------------- | ------ |
-| Arduino UNO R3            | Atmega328p              | Yes    |
-| Arduino UNO R4 Minima     | RA4M1                   | No     |
-| Arduino UNO R4 Wifi       | RA4M1+ESP32S3           | No     |
-| Arduino Nano Every        | Atmega328p(SMD version) | Yes    |
-| Arduino Mega 2650         | Atmega2560              | No     |
-| Nodemcu ESP8266 Devkit V3 | ESP8266EX               | Yes    |
-| DoIt esp32 devkit-V1      | ESP-Wroom-32            | Yes    |
-| ESP32-CAM                 | ESP-Wroom-32            | Yes    |
-| ESP32 C3 DevkitC-1        | ESP32-C3-N4R2           | No     |
-| ESP32 S2 DevkitC-1        | ESP32-S2-Solo-N4        | Yes    |
-| ESP32 S3 DevkitC-1        | ESP32-S3-N8R8           | Yes    |
-| ESP32-S3-Pico             | ESP32-S3-R2             | Yes    |
-| ESP32 C6 DevkitC-1        | ESP32-S6-N8R8           | No     |
-| Raspberry Pi Pico         | RP2040                  | Yes    |
-| Raspberry Pi 4B           | Broadcom BCM2711        | Yes    |
-| Raspberry Pi 5            | Broadcom BCM2712        | Yes    |
-| Blackpil STM32            | STM32F401CCU6           | No     |
+| Name                   | Processor name          | Tested |
+| ---------------------- | ----------------------- | ------ |
+| Arduino UNO R2 Wifi    | ATmega4809 + NINA-W102  | No     |
+| Arduino UNO R3         | Atmega328p              | Yes    |
+| Arduino UNO R4 Minima  | RA4M1                   | No     |
+| Arduino UNO R4 Wifi    | RA4M1 + ESP32S3(WiFi)   | No     |
+| Arduino Nano Every     | Atmega328p(SMD version) | Yes    |
+| Arduino Nano ESP32     | NORA-W106 (ESP32-S3)    | No     |
+| Arduino Mega 2650      | Atmega2560              | No     |
+| Arduino Giga R1 Wifi   | STM32H747XI             | No     |
+| Nodemcu ESP8266 Devkit | ESP8266EX               | Yes    |
+| DoIt esp32 devkit-V1   | ESP-Wroom-32            | Yes    |
+| ESP32-CAM              | ESP-Wroom-32            | Yes    |
+| ESP32 C3 DevkitC-1     | ESP32-C3-N4R2           | No     |
+| ESP32 S2 DevkitC-1     | ESP32-S2-Solo-N4        | Yes    |
+| ESP32 S3 DevkitC-1     | ESP32-S3-N8R8           | Yes    |
+| ESP32-S3-Pico          | ESP32-S3-R2             | Yes    |
+| ESP32 C6 DevkitC-1     | ESP32-S6-N8R8           | No     |
+| Raspberry Pi Pico      | RP2040                  | Yes    |
+| Raspberry Pi Pico W    | RP2040 + CYW43439(wifi) | No     |
+| Raspberry Pi 4B        | Broadcom BCM2711        | Yes    |
+| Raspberry Pi 5         | Broadcom BCM2712        | No     |
+| Blackpil STM32         | STM32F401CCU6           | No     |
 
 ### Minimal Component Requirements
 
