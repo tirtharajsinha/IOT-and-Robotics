@@ -1,3 +1,8 @@
+// If can't fid network port 
+// make sure port 3232 is allowed in your firewall.
+// better solution is to disable firewall and restart arduino ide.
+
+
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
