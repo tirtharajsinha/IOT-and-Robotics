@@ -2,9 +2,10 @@
 #include <esp_wifi.h>
 #include <ESPAsyncWebServer.h>
 #include "index.h"
+#include "SPIFFS.h"
 
 /*Put your SSID & Password*/
-const char* ssid = "SINHA_NCBN";           // Enter SSID here
+const char* ssid = "SINHA_NCBN";    // Enter SSID here
 const char* password = "19061969";  //Enter Password here
 
 AsyncWebServer server(80);
@@ -60,10 +61,16 @@ void setup() {
 
   server.begin();
   Serial.println("HTTP server started");
+
+
+  if (!SPIFFS.begin(true)) {
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
+  }
 }
 void loop() {
   // server.handleClient();
-  
+
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.print(".");
@@ -83,7 +90,8 @@ void loop() {
 
 void handle_OnConnect(AsyncWebServerRequest* request) {
   Serial.println("GPIO4 Status: OFF | GPIO5 Status: OFF");
-  request->send_P(200, "text/html", index_html, processor);
+  // request->send_P(200, "text/html", index_html, processor);
+  request->send(SPIFFS, "/index.html");
 }
 
 void handle_led1on(AsyncWebServerRequest* request) {
