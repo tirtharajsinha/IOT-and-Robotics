@@ -9,13 +9,13 @@
     "app_bin":            "bootloader.bin",
     "build_type":         "flash_app",
     "git_revision":       "v5.1-rc1",
-    "target":             "esp32s3",
+    "target":             "esp32s2",
     "rev":                "",
     "min_rev":            "0",
-    "max_rev":            "99",
+    "max_rev":            "199",
     "phy_data_partition": "",
     "monitor_baud" :      "115200",
-    "monitor_toolprefix": "xtensa-esp32s3-elf-",
+    "monitor_toolprefix": "xtensa-esp32s2-elf-",
     "config_environment" : {
         "COMPONENT_KCONFIGS" : "C:/Users/TIRTHA/esp/esp-idf/components/efuse/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/esp_common/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/esp_hw_support/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/esp_system/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/freertos/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/hal/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/log/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/newlib/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/soc/Kconfig;C:/Users/TIRTHA/esp/esp-idf/components/spi_flash/Kconfig",
         "COMPONENT_KCONFIGS_PROJBUILD" : "C:/Users/TIRTHA/esp/esp-idf/components/bootloader/Kconfig.projbuild;C:/Users/TIRTHA/esp/esp-idf/components/esp_app_format/Kconfig.projbuild;C:/Users/TIRTHA/esp/esp-idf/components/esp_rom/Kconfig.projbuild;C:/Users/TIRTHA/esp/esp-idf/components/esptool_py/Kconfig.projbuild;C:/Users/TIRTHA/esp/esp-idf/components/partition_table/Kconfig.projbuild"
