@@ -1,6 +1,6 @@
 #include <AFMotor.h>
 
-AF_DCMotor motor(4);
+AF_DCMotor motor(1);
 
 void setup() 
 {
@@ -19,12 +19,12 @@ void loop()
 	motor.run(FORWARD);
   motor.setSpeed(200);
   delay(1000);
-  // motor.run(FORWARD);
-  // motor.setSpeed(200);
-  // delay(1000);
-  // motor.run(BACKWARD);
-  // motor.setSpeed(255);
-  // delay(1000);
+  motor.run(FORWARD);
+  motor.setSpeed(200);
+  delay(1000);
+  motor.run(BACKWARD);
+  motor.setSpeed(255);
+  delay(1000);
 
 	
 	// // Accelerate from zero to maximum speed

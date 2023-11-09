@@ -11,16 +11,18 @@ void setup() {
 }
 
 void loop() {
- delay(100);
 }
 
 // function that executes whenever data is received from master
 void receiveEvent(int howMany) {
- while (0 <Wire.available()) {
-    char c = Wire.read();      /* receive byte as a character */
-    Serial.print(c);           /* print the character */
+  Serial.println(howMany);
+  String data="";
+ while (0 < Wire.available()) {
+    char c = Wire.read();
+    data+=(String)c;      /* receive byte as a character */  
+    // Serial.print(c);
   }
- Serial.println();             /* to newline */
+ Serial.println(data);             /* to newline */
 }
 
 // function that executes whenever data is requested from master
