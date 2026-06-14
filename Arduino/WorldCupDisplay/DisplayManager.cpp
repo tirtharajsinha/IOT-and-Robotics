@@ -7,8 +7,8 @@ static const int H = 128;
 
 static const int LOGO_Y = 5;
 static const int TEXT_Y = 52;
-static const int SCORE_Y = 70;
-static const int STATUS_Y = 95;
+static const int SCORE_Y = 75;
+static const int STATUS_Y = 97;
 static const int DATE_Y = 112;
 static const int HOME_X = 22;
 static const int MID_X = 80;
@@ -90,28 +90,31 @@ void DisplayManager::showMatch(const Match& match) {
   //---------------------------
   // SCORE (MAIN FOCUS)
   //---------------------------
-  if (match.status != "TIMED") {
+  if (match.status != "TIMED" && match.status != "SCHEDULED") {
     tft.setTextSize(2);
 
-    if (match.homeWon())
-      tft.setTextColor(Colors::Primary);
-    else
-      tft.setTextColor(Colors::Secondary);
-
-    tft.setCursor(60, SCORE_Y);
-    tft.print(match.homeGoals);
-
+    // SHOW HOME GOAL
     tft.setTextColor(Colors::Primary);
-    tft.setCursor(76, SCORE_Y);
+    tft.setCursor(HOME_X-10, SCORE_Y);
+    if (match.homeWon())
+      tft.print("[" + String(match.homeGoals) + "]");
+    else
+      tft.print(" " + String(match.homeGoals) + " ");
+
+
+    // SHOW Splitter
+    tft.setTextColor(Colors::Secondary);
+    tft.setCursor(75, SCORE_Y);
     tft.print("-");
 
-    if (match.awayWon())
-      tft.setTextColor(Colors::Primary);
-    else
-      tft.setTextColor(Colors::Secondary);
 
-    tft.setCursor(92, SCORE_Y);
-    tft.print(match.awayGoals);
+    // SHOW AWAY GOAL
+    tft.setTextColor(Colors::Primary);
+    tft.setCursor(AWAY_X-10, SCORE_Y);
+    if (match.awayWon())
+      tft.print("[" + String(match.awayGoals) + "]");
+    else
+      tft.print(" " + String(match.awayGoals) + " ");
   }
 
 
@@ -126,9 +129,8 @@ void DisplayManager::showMatch(const Match& match) {
     statusColor = Colors::Live;
     tft.fillCircle(150, STATUS_Y, 3, Colors::Live);
   } else if (match.status == "FINISHED") {
-    statusColor = Colors::Secondary;
+    statusColor = Colors::Primary;
   }
-
 
   tft.setTextColor(statusColor);
 

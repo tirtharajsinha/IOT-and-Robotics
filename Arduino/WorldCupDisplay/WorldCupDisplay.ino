@@ -171,6 +171,8 @@ void setup() {
   tft.initR(
     INITR_BLACKTAB);
 
+  tft.invertDisplay(false);
+
   Storage.begin();
 
   logoManager.begin();

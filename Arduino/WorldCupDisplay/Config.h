@@ -3,7 +3,7 @@
 #define WIFI_SSID "Aasra pg 4th floor"
 #define WIFI_PASSWORD "9959462692@4"
 
-#define API_KEY "XXX"
+#define API_KEY "1158ba1f4ca94d1ca0aa723f724cf677"
 
 #define COMPETITION_CODE "WC"
 

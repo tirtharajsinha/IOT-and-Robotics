@@ -28,7 +28,7 @@ struct Match {
   bool finished;
 
   String displayStatus() const {
-    if (status == "TIMED")
+    if (status == "TIMED" || status == "SCHEDULED")
       return "UPCOMING";
 
     if (status == "IN_PLAY")
@@ -43,15 +43,17 @@ struct Match {
     return status;
   }
 
+  
+
   bool isDraw() const {
     return homeGoals == awayGoals;
   }
 
   bool homeWon() const {
-    return homeGoals >= awayGoals;
+    return homeGoals > awayGoals;
   }
 
   bool awayWon() const {
-    return awayGoals >= homeGoals;
+    return awayGoals > homeGoals;
   }
 };
