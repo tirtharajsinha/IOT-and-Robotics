@@ -1,0 +1,33 @@
+/# Arduino / PlatformIO build artifacts
+.pio/
+.pioenvs/
+.piolibdeps/
+build/
+*.elf
+*.hex
+*.bin
+*.eep
+*.map
+
+# LittleFS / SPIFFS / sketch data upload artifacts
+# Ignore generated image/binary blobs but keep the source logos
+data/*.bin
+data/*.img
+data/*.lfs
+!data/logos/
+!data/logos/**
+/data/
+
+# Editor / OS artifacts
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Secrets
+**/secret.*
+
