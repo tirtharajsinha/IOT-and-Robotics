@@ -28,5 +28,8 @@ namespace Colors
 
     constexpr uint16_t Green=
         ST77XX_GREEN;
+
+    constexpr uint16_t LGreen=
+        0xadff96;
     
 }

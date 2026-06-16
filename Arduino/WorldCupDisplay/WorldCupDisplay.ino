@@ -9,11 +9,17 @@
 #include "PngRenderer.h"
 #include "DisplayManager.h"
 #include "LittleFS.h"
-
 #include "Match.h"
+
+
+uint32_t bootTime = 0;
+
 
 Match matches[MAX_MATCHES];
 int matchCount = 0;
+
+Match liveMatches[MAX_MATCHES];
+int liveMatchCount = 0;
 
 LogoManager logoManager;
 PngRenderer pngRenderer;
@@ -38,7 +44,7 @@ static const int SCREEN_W = 160;
 static const int BAR_Y = 122;
 static const int BAR_H = 4;
 
-static const int MATCH_DURATION = 7000;  // 7 seconds
+
 
 
 
@@ -80,6 +86,17 @@ void setupTime() {
     ctime(&now));
 }
 
+void updateLiveMatches() {
+  liveMatchCount = 0;
+
+  for (int i = 0; i < matchCount; i++) {
+    if (matches[i].isLive()) {
+      liveMatches[liveMatchCount++] =
+        matches[i];
+    }
+  }
+}
+
 bool loadFixtures() {
 
   if (!wifi.isConnected()) {
@@ -92,6 +109,17 @@ bool loadFixtures() {
       matches,
       matchCount);
 
+  updateLiveMatches();
+
+  int count =
+    (liveMatchCount > 0)
+      ? liveMatchCount
+      : matchCount;
+
+  if (currentMatch >= count) {
+    currentMatch = 0;
+  }
+
   if (!ok) {
     display.showError(
       "No Data");
@@ -103,22 +131,27 @@ bool loadFixtures() {
     "Loaded %d matches\n",
     matchCount);
 
-  if (matchCount > 0) {
-    currentMatch = 0;
-
-    display.showMatch(
-      matches[0]);
-  }
 
   return true;
+}
+
+uint32_t getRefreshInterval() {
+  return liveMatchCount > 0
+           ? REFRESH_INTERVAL_LIVE
+           : REFRESH_INTERVAL_NORMAL;
 }
 
 void drawProgressBar() {
   if (matchCount == 0)
     return;
 
+  int totalPages =
+    (liveMatchCount > 0)
+      ? liveMatchCount
+      : matchCount;
+
   float progress =
-    (currentMatch + 1) / (float)matchCount;
+    (currentMatch + 1) / (float)totalPages;
 
   if (progress > 1.0f)
     progress = 1.0f;
@@ -165,7 +198,23 @@ void showLoadingScreen(const char* msg) {
   tft.print(msg);
 }
 
+void restartBoard() {
+  constexpr uint32_t RESTART_INTERVAL =
+    2UL * 60UL * 60UL * 1000UL;  // 2 hours
+
+  if (
+    millis() - bootTime >= RESTART_INTERVAL && liveMatchCount == 0) {
+    Serial.println(
+      "Scheduled restart");
+
+    delay(1000);
+
+    ESP.restart();
+  }
+}
+
 void setup() {
+
   Serial.begin(115200);
 
   tft.initR(
@@ -198,13 +247,19 @@ void setup() {
 
 
   tft.fillScreen(ST77XX_WHITE);
-  display.showMatch(
-    matches[currentMatch]);
+  Match& match =
+    (liveMatchCount > 0)
+      ? liveMatches[currentMatch]
+      : matches[currentMatch];
+
+  display.showMatch(match);
   drawProgressBar();
 }
 
 
 void loop() {
+  // restart board
+  restartBoard();
 
   // wifi re-connect
   wifi.update();
@@ -212,21 +267,29 @@ void loop() {
   // Rotate Match
   //--------------------------------
 
+
+
+  int displayCount =
+    (liveMatchCount > 0)
+      ? liveMatchCount
+      : matchCount;
+
   if (
-    matchCount > 0 && millis() - lastRotation >= MATCH_ROTATION_INTERVAL) {
+    displayCount > 1 && millis() - lastRotation >= MATCH_ROTATION_INTERVAL) {
     currentMatch++;
 
-
-    if (
-      currentMatch >= matchCount) {
+    if (currentMatch >= displayCount)
       currentMatch = 0;
-    }
 
-    display.showMatch(
-      matches[currentMatch]);
+    Match& match =
+      (liveMatchCount > 0)
+        ? liveMatches[currentMatch]
+        : matches[currentMatch];
 
-    lastRotation =
-      millis();
+    display.showMatch(match);
+
+    lastRotation = millis();
+
     drawProgressBar();
   }
 
@@ -234,13 +297,32 @@ void loop() {
   // Refresh Scores
   //--------------------------------
 
-  if (millis() - lastRefresh >= API_REFRESH_INTERVAL) {
+  if (millis() - lastRefresh >= getRefreshInterval()) {
     Serial.println(
       "Refreshing fixtures...");
 
-    loadFixtures();
+    if (loadFixtures()) {
+
+      Match& match =
+        (liveMatchCount > 0)
+          ? liveMatches[currentMatch]
+          : matches[currentMatch];
+
+      display.showMatch(match);
+
+      drawProgressBar();
+    }
+
 
     lastRefresh =
       millis();
+  }
+
+  if (!wifi.isConnected()) {
+    tft.drawFastHLine(
+      0,
+      0,
+      5,
+      ST77XX_RED);
   }
 }

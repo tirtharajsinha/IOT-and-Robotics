@@ -43,7 +43,7 @@ struct Match {
     return status;
   }
 
-  
+
 
   bool isDraw() const {
     return homeGoals == awayGoals;
@@ -55,5 +55,13 @@ struct Match {
 
   bool awayWon() const {
     return awayGoals > homeGoals;
+  }
+
+  bool isLive() const {
+    return status == "IN_PLAY" || status == "PAUSED";
+  }
+
+  bool isUpcoming() const {
+    return status == "TIMED";
   }
 };

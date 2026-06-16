@@ -95,22 +95,22 @@ void DisplayManager::showMatch(const Match& match) {
 
     // SHOW HOME GOAL
     tft.setTextColor(Colors::Primary);
-    tft.setCursor(HOME_X-10, SCORE_Y);
+    tft.setCursor(HOME_X - 10, SCORE_Y);
     if (match.homeWon())
       tft.print("[" + String(match.homeGoals) + "]");
     else
       tft.print(" " + String(match.homeGoals) + " ");
 
 
-    // SHOW Splitter
-    tft.setTextColor(Colors::Secondary);
-    tft.setCursor(75, SCORE_Y);
-    tft.print("-");
+    // // SHOW Splitter
+    // tft.setTextColor(Colors::Secondary);
+    // tft.setCursor(75, SCORE_Y);
+    // tft.print("-");
 
 
     // SHOW AWAY GOAL
     tft.setTextColor(Colors::Primary);
-    tft.setCursor(AWAY_X-10, SCORE_Y);
+    tft.setCursor(AWAY_X - 10, SCORE_Y);
     if (match.awayWon())
       tft.print("[" + String(match.awayGoals) + "]");
     else
@@ -123,21 +123,47 @@ void DisplayManager::showMatch(const Match& match) {
   // STATUS BADGE
   //---------------------------
 
-  uint16_t statusColor = Colors::Primary;
-
   if (match.status == "IN_PLAY") {
-    statusColor = Colors::Live;
-    tft.fillCircle(150, STATUS_Y, 3, Colors::Live);
-  } else if (match.status == "FINISHED") {
-    statusColor = Colors::Primary;
+    tft.fillRoundRect(
+      60,
+      SCORE_Y - 2,
+      40,
+      20,
+      4,
+      Colors::Live);
+
+    tft.setTextColor(Colors::Background);
+    drawCenteredText(
+      match.displayStatus(),
+      SCORE_Y + 4,
+      1);
   }
+  else if (match.status == "PAUSED") {
+    tft.fillRoundRect(
+      60,
+      SCORE_Y - 2,
+      40,
+      20,
+      4,
+      Colors::LGreen);
 
-  tft.setTextColor(statusColor);
-
-  if (match.status == "TIMED") {
-    drawCenteredText(match.displayStatus(), STATUS_Y - 12, 2);
+    tft.setTextColor(Colors::Primary);
+    drawCenteredText(
+      match.displayStatus(),
+      SCORE_Y + 4,
+      1);
+  } else if (match.status == "TIMED") {
+    tft.setTextColor(Colors::Primary);
+    drawCenteredText(
+      match.displayStatus(),
+      STATUS_Y - 12,
+      2);
   } else {
-    drawCenteredText(match.displayStatus(), STATUS_Y-2, 1);
+    tft.setTextColor(Colors::Primary);
+    drawCenteredText(
+      match.displayStatus(),
+      SCORE_Y + 5,
+      1);
   }
 
 
@@ -147,7 +173,7 @@ void DisplayManager::showMatch(const Match& match) {
   //---------------------------
 
   tft.setTextColor(Colors::Primary);
-  drawCenteredText(match.istDate + " IST", DATE_Y-2);
+  drawCenteredText(match.istDate + " IST", DATE_Y - 2);
 }
 
 void DisplayManager::drawStatus(

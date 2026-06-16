@@ -6,44 +6,60 @@
 #include <time.h>
 
 #include "Config.h"
+#include "Secret.h"
 #include "StorageManager.h"
 
 ApiClient Api;
 
 static String utcToIst(
-    const String& utc
-)
-{
-    struct tm tm = {};
+  const String& utc) {
+  struct tm tm = {};
 
-    strptime(
-        utc.c_str(),
-        "%Y-%m-%dT%H:%M:%SZ",
-        &tm
-    );
+  strptime(
+    utc.c_str(),
+    "%Y-%m-%dT%H:%M:%SZ",
+    &tm);
 
-    time_t t =
-        mktime(&tm);
+  time_t t =
+    mktime(&tm);
 
-    t += 19800;
+  t += 19800;
 
-    struct tm ist;
+  struct tm ist;
 
-    gmtime_r(
-        &t,
-        &ist
-    );
+  gmtime_r(
+    &t,
+    &ist);
 
-    char buffer[32];
+  char buffer[32];
 
-    strftime(
-        buffer,
-        sizeof(buffer),
-        "%d %b %H:%M",
-        &ist
-    );
+  strftime(
+    buffer,
+    sizeof(buffer),
+    "%d %b %H:%M",
+    &ist);
 
-    return String(buffer);
+  return String(buffer);
+}
+
+String utcToIst(
+  time_t utcTime) {
+  utcTime += 19800;  // +5:30
+
+  struct tm ist;
+  gmtime_r(
+    &utcTime,
+    &ist);
+
+  char buf[6];
+
+  strftime(
+    buf,
+    sizeof(buf),
+    "%H:%M",
+    &ist);
+
+  return String(buf);
 }
 
 static String buildUrl() {
@@ -232,9 +248,15 @@ bool ApiClient::parseFixtures(
       m["utcDate"]
         .as<String>();
 
-    match.istDate =
-      utcToIst(
-        match.utcDate);
+    if (match.status == "IN_PLAY" || match.status == "PAUSED") {
+      time_t now;
+      time(&now);
+      match.istDate = utcToIst(now);
+    } else {
+      match.istDate =
+        utcToIst(
+          match.utcDate);
+    }
 
     match.finished =
       (match.status == "FINISHED");
@@ -317,5 +339,3 @@ bool ApiClient::fetchFixtures(
 
   return ok;
 }
-
-
